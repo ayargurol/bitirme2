@@ -1,0 +1,116 @@
+﻿ public async Task Allsites(string arama)
+        {
+            await Hepsiburada("https://www.hepsiburada.com/ara?q=" + arama.Replace(" ", "+") + "&siralama=coksatan");
+            await N11("https://www.n11.com/arama?q=" + arama + "&srt=SALES_VOLUME");
+            await Gittigidiyor("https://www.gittigidiyor.com/arama/?k=" + arama);
+        }
+
+        public async Task N11(string linkN11)
+        {
+            try
+            {
+                HtmlWeb webN11 = new HtmlWeb();
+                var docN11 = webN11.Load(linkN11);
+                var liN11 = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']");
+                int iN11 = 0;
+                foreach (var unused in liN11)
+                {
+                    try
+                    {
+                        product pro = new product()
+                        {
+                            Fiyat = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']//a[@class='newPrice']/ins").ElementAt(iN11).InnerText.Trim().Replace(" ", string.Empty).Replace("/n", string.Empty),
+                            Isim = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']//h3").ElementAt(iN11).InnerText.Trim(),
+                            Resim = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']/div/div/a/img").ElementAt(iN11).Attributes["data-original"].Value,
+                            Link = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']/div/div/a[@class='plink']").ElementAt(iN11).Attributes["href"].Value,
+                            Site = "n11",
+                            Puan = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']/div/a/div/div[@class='pointBar']/span[@class='point']").ElementAt(iN11).InnerText.Trim('%'),
+                            Satıcı = docN11.DocumentNode.SelectNodes("//ul/li[@class='column ']/div/a[@class='sallerInfo']").ElementAt(iN11).Attributes["title"].Value.Trim(),
+                        };
+                        pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.Length - 2, 2);
+                        db.Add(pro);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+
+                    iN11++;
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            await Task.Yield();
+        }
+
+        public async Task Hepsiburada(string linkHepsi)
+        {
+            #region HepsiBurada
+
+            HtmlWeb webHepsi = new HtmlWeb();
+            var docHepsi = webHepsi.Load(linkHepsi);
+            var liHepsi = docHepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li");
+            int iHepsi = 0;
+            foreach (var item in liHepsi)
+            {
+                try
+                {
+                    using (product pro = new product())
+                    {
+                        pro.Isim = docHepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li//div[@class='product-detail']/h3[@class='product-title title']").ElementAt(iHepsi).Attributes["title"].Value + " sayaç : "+iHepsi;
+                        pro.Resim = docHepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li//div/a/figure/img").ElementAt(iHepsi).Attributes["src"].Value;
+                        pro.Fiyat = docHepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li//span[@class='price product-price']").ElementAt(iHepsi).InnerText.Trim().Replace(" ", string.Empty).Replace("/n", string.Empty);
+                        pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.Length - 2, 2);
+                        pro.Link = "https://www.hepsiburada.com"+docHepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li/div[@class='box product  hb-placeholder']/a").ElementAt(iHepsi).Attributes["href"].Value + " sayaç : " + iHepsi;
+                        pro.Site = "Hepsiburada " + " sayaç : " + iHepsi;
+
+                        // pro.puan += doc_hepsi.DocumentNode.SelectNodes("//ul[@class='product-list results-container do-flex ']/li//span[@class='ratings']/span[@class='ratings active']").ElementAt(i_hepsi).Attributes["stye"].Value;
+                        db.Add(pro);
+                    }
+                }
+                catch (Exception)
+                {
+                    iHepsi++;
+                    continue;
+                }
+                iHepsi++;
+            }
+            await Task.Yield();
+
+            #endregion HepsiBurada
+        }
+
+        public async Task Gittigidiyor(string linkGitti)
+        {
+            #region GittiGidiyor
+
+            HtmlWeb webGitti = new HtmlWeb();
+            var docGit = webGitti.Load(linkGitti);
+            var liGit = docGit.DocumentNode.SelectNodes("//li[@class='gg-uw-6 gg-w-8 gg-d-8 gg-t-8 gg-m-24 gg-mw-12 catalog-seem-cell']");
+            for (int i = 0; i < liGit.Count; i++)
+            {
+                try
+                {
+                    var proGit = new product()
+                    {
+                        Isim = docGit.DocumentNode.SelectNodes("//li[@class='gg-uw-6 gg-w-8 gg-d-8 gg-t-8 gg-m-24 gg-mw-12 catalog-seem-cell ']//img[@class='img-cont lazyload-img']").ElementAt(i).Attributes["alt"].Value,
+                        Link = docGit.DocumentNode.SelectNodes("//li[@class='gg-uw-6 gg-w-8 gg-d-8 gg-t-8 gg-m-24 gg-mw-12 catalog-seem-cell ']//h4[@class='product-title bold-opt']/a").ElementAt(i).Attributes["href"].Value,
+                        Fiyat = docGit.DocumentNode.SelectNodes("//li[@class='gg-uw-6 gg-w-8 gg-d-8 gg-t-8 gg-m-24 gg-mw-12 catalog-seem-cell ']//div/div/div/div/div/div[@class='priceListener gg-w-24 gg-d-24 gg-t-24 gg-m-24 padding-none']/div/a[@class='inherit-color']/p").ElementAt(i).InnerText.Trim().Replace(" ", string.Empty).Replace("/n", string.Empty),
+                        Site = "Gittigidiyor",
+                        Resim = docGit.DocumentNode.SelectNodes("//li[@class='gg-uw-6 gg-w-8 gg-d-8 gg-t-8 gg-m-24 gg-mw-12 catalog-seem-cell ']//img[@class='img-cont lazyload-img']").ElementAt(i).Attributes["data-original"].Value
+                    };
+                    proGit.Fiyat = proGit.Fiyat.Remove(proGit.Fiyat.Length - 2, 2);
+                    db.Add(proGit);
+                }
+                catch (Exception)
+                {
+                    i++;
+                }
+            }
+
+            #endregion GittiGidiyor
+
+            await Task.Yield();
+        }

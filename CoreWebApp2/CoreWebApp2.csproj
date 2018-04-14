@@ -1,0 +1,168 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.7.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\app\js\dashboard.js" />
+    <None Include="wwwroot\assets\app\js\layout-builder.js" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-6.jpg" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-6.png" />
+    <None Include="wwwroot\assets\app\media\img\bg\bg-7.jpg" />
+    <None Include="wwwroot\assets\app\media\img\blog\blog1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\blog\blog2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\blog\blog3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\blog\blog4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\blog\blog5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\client-logos\logo1.png" />
+    <None Include="wwwroot\assets\app\media\img\client-logos\logo2.png" />
+    <None Include="wwwroot\assets\app\media\img\client-logos\logo3.png" />
+    <None Include="wwwroot\assets\app\media\img\client-logos\logo4.png" />
+    <None Include="wwwroot\assets\app\media\img\client-logos\logo5.png" />
+    <None Include="wwwroot\assets\app\media\img\envato\screen1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\envato\screen2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\error\bg6.jpg" />
+    <None Include="wwwroot\assets\app\media\img\files\css.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\csv.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\doc.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\html.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\javascript.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\jpg.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\mp4.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\pdf.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\xml.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\zip.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\exchange.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\logout.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\question.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\warning.svg" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo-1.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo-2.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo-3.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo_client_color.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo_client_white.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo_invoice_dark.png" />
+    <None Include="wwwroot\assets\app\media\img\logos\logo_invoice_white.png" />
+    <None Include="wwwroot\assets\app\media\img\misc\notification_bg.jpg" />
+    <None Include="wwwroot\assets\app\media\img\misc\quick_actions_bg.jpg" />
+    <None Include="wwwroot\assets\app\media\img\misc\user_profile_bg.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product10.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product11.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product6.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product7.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product8.jpg" />
+    <None Include="wwwroot\assets\app\media\img\products\product9.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_10.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_11.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_12.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_13.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_14.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_6.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_7.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_8.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\100_9.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_10.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_11.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_12.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_13.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_14.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_5.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_6.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_7.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_8.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\300_9.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\user1.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\user2.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\user3.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\user4.jpg" />
+    <None Include="wwwroot\assets\app\media\img\users\user5.jpg" />
+    <None Include="wwwroot\assets\demo\demo4\base\scripts.bundle.js" />
+    <None Include="wwwroot\assets\demo\demo4\base\style.bundle.css" />
+    <None Include="wwwroot\assets\demo\demo4\media\img\logo\favicon.ico" />
+    <None Include="wwwroot\assets\demo\demo4\media\img\logo\logo.png" />
+    <None Include="wwwroot\assets\demo\demo4\media\img\logo\logos.png" />
+    <None Include="wwwroot\assets\demo\demo4\media\img\logo\logo_inverse.png" />
+    <None Include="wwwroot\assets\snippets\pages\user\login.js" />
+    <None Include="wwwroot\assets\vendors\base\fonts\flaticon\Flaticon.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\flaticon\Flaticon.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\flaticon\Flaticon.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\flaticon\Flaticon.woff" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\fontawesome-webfont.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\fontawesome-webfont.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\fontawesome-webfont.woff" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\font-awesome\FontAwesome.otf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.woff" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\socicon\socicon.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\socicon\socicon.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\socicon\socicon.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\socicon\socicon.woff" />
+    <None Include="wwwroot\assets\vendors\base\fonts\summernote\summernote.eot" />
+    <None Include="wwwroot\assets\vendors\base\fonts\summernote\summernote.ttf" />
+    <None Include="wwwroot\assets\vendors\base\fonts\summernote\summernote.woff" />
+    <None Include="wwwroot\assets\vendors\base\images\ion-rangeslider\sprite-skin-flat.png" />
+    <None Include="wwwroot\assets\vendors\base\images\jstree\32px.png" />
+    <None Include="wwwroot\assets\vendors\base\images\jstree\40px.png" />
+    <None Include="wwwroot\assets\vendors\base\images\jstree\throbber.gif" />
+    <None Include="wwwroot\assets\vendors\base\images\malihu-custom-scrollbar-plugin\mCSB_buttons.png" />
+    <None Include="wwwroot\assets\vendors\base\vendors.bundle.css" />
+    <None Include="wwwroot\assets\vendors\base\vendors.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\flot\flot.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\fullcalendar\fullcalendar.bundle.css" />
+    <None Include="wwwroot\assets\vendors\custom\fullcalendar\fullcalendar.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\gmaps\gmaps.js" />
+    <None Include="wwwroot\assets\vendors\custom\jquery-ui\jquery-ui.bundle.css" />
+    <None Include="wwwroot\assets\vendors\custom\jquery-ui\jquery-ui.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\jqvmap\jqvmap.bundle.css" />
+    <None Include="wwwroot\assets\vendors\custom\jqvmap\jqvmap.bundle.js" />
+  </ItemGroup>
+
+</Project>

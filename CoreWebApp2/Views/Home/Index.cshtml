@@ -1,0 +1,174 @@
+﻿@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Metronic | Dashboard
+    </title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <link href="~/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/demo/demo9/base/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/loader.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/assets/demo/demo9/media/img/logo/favicon.ico" />
+</head>
+<body class="m--skin- m-content--skin-light m-header--fixed m-header--fixed-mobile m-aside-left--offcanvas-default m-aside-left--enabled m-aside-left--fixed m-aside-left--skin-dark m-aside--offcanvas-default">
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+        <header class="m-grid__item    m-header " data-minimize="minimize" data-minimize-mobile="minimize" data-minimize-offset="200" data-minimize-mobile-offset="200">
+            <div class="m-container m-container--fluid m-container--full-height">
+                <div class="m-stack m-stack--ver m-stack--desktop  m-header__wrapper">
+                    <div class="m-stack__item m-stack__item--middle m-stack__item--center">
+                        <a href="index.html" class="m-brand m-brand--desktop">
+                            <img alt="" src="~/assets/demo/demo9/media/img/logo/logo.png" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
+            <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
+                <div class="m-grid__item m-grid__item--fluid m-wrapper">
+                    <div class="m-subheader ">
+                        <div class="d-flex align-items-center">
+                            <div class="input-group m-input-group">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-brand arama-buton" id="arama-buton" onclick="loaderGetir()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-danger sort-buton" id="sort-buton" onclick="sortUsingNestedText()">
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control m-input arama" placeholder="Arama" aria-describedby="basic-addon1" id="arama">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-content sonuclar" >
+                        <div id="loader" style="display:none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+        <i class="la la-arrow-up"></i>
+    </div>
+    <script src="~/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/demo/demo9/base/scripts.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/app/js/dashboard.js" type="text/javascript"></script>
+</body>
+</html>
+<script>
+    $(".arama-buton").click(function () {
+        var word = $(".arama").val();
+        var url = "@Url.Action("Search","Home")/" + word;
+        var content = "";
+        $.ajax({
+            method: 'GET',
+            url: url,
+            data: { word: word },
+            success:
+                function (veri) {
+                    if (veri.status) {
+                        for (var i = 0; i + 5 < veri.data.length; i += 6) {
+                            content +=
+                                '<div class="row sortContent">' +
+                                '<div class="card col-2" name="'+ veri.data[i].fiyat +'"  > <img class="card-img-top" src=' + veri.data[i].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i].fiyat +
+                                '</p><p class="card-text">' + veri.data[i].satıcı +
+                                '</p><p class="card-text">' + veri.data[i].puan +
+                                '</p><a href=' + veri.data[i].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                //
+                                '<div class="card col-2" name="'+ veri.data[i+1].fiyat +'" > <img class="card-img-top" src=' + veri.data[i + 1].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i + 1].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i+1].fiyat +
+                                '</p><p class="card-text">' + veri.data[i + 1].satıcı +
+                                '</p><p class="card-text">' + veri.data[i + 1].puan +
+                                '</p><a href=' + veri.data[i + 1].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                //
+                                '<div class="card col-2" name="'+ veri.data[i+2].fiyat +'"  > <img class="card-img-top" src=' + veri.data[i + 2].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i + 2].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i + 2].fiyat +
+                                '</p><p class="card-text">' + veri.data[i + 2].satıcı +
+                                '</p><p class="card-text">' + veri.data[i + 2].puan +
+                                '</p><a href=' + veri.data[i + 2].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                //
+                                '<div class="card col-2" name="'+ veri.data[i+3].fiyat +'"  > <img class="card-img-top" src=' + veri.data[i + 3].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i + 3].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i + 3].fiyat +
+                                '</p><p class="card-text">' + veri.data[i + 3].satıcı +
+                                '</p><p class="card-text">' + veri.data[i + 3].puan +
+                                '</p><a href=' + veri.data[i + 3].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                //
+                                '<div class="card col-2" name="'+ veri.data[i+4].fiyat +'"  > <img class="card-img-top" src=' + veri.data[i + 4].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i + 4].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i + 4].fiyat +
+                                '</p><p class="card-text">' + veri.data[i + 4].satıcı +
+                                '</p><p class="card-text">' + veri.data[i + 4].puan +
+                                '</p><a href=' + veri.data[i + 4].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                //
+                                '<div class="card col-2" name="'+ veri.data[i+5].fiyat +'" > <img class="card-img-top" src=' + veri.data[i + 5].resim +
+                                ' alt="Card image cap"><div class="card-body"><h5 class="card-title sortIsim">' + veri.data[i + 5].isim +
+                                '</h5><p class="card-text sortFiyat">' + veri.data[i + 5].fiyat +
+                                '</p><p class="card-text">' + veri.data[i + 5].satıcı +
+                                '</p><p class="card-text">' + veri.data[i + 5].puan +
+                                '</p><a href=' + veri.data[i + 5].link +
+                                'class= "btn btn-primary"> Ürüne Git</a></div></div>' +
+                                '</div>';
+                        }
+                        $(".sonuclar").html(content);
+                    }
+                },
+        });
+        
+    });
+</script>
+<script>
+    var input = document.getElementById("arama");
+    var buton = document.getElementById("arama-buton");
+
+    input.addEventListener("keyup", function (event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            buton.click();
+        }
+    });
+</script>
+<script>
+    function loaderGetir() {
+        document.getElementById("loader").style.display = "block";
+    }
+</script>
+<script>
+function sortUsingNestedText() {
+    var items = $(".sortContent").children("card.col-2").sort(function(a, b) {
+        var vA = $("p.sortFiyat", a).text();
+        var vB = $("p.sortFiyat", b).text();
+        return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+    });
+    console.log(items);
+     $(".sortContent").append(items);
+}
+</script>
+

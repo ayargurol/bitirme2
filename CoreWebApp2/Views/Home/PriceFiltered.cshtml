@@ -1,0 +1,99 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="row">
+    @for (int i = 0; i + 5 < @Model.data.Count; i += 6)
+    {
+    <div class="row" style="margin-bottom:5px;">
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i].Isim</h5>
+                <p class="card-text">@Model.Data[i].Fiyat</p>
+                <p class="card-text">@Model.Data[i].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i].Puan != null)
+                    {
+                    @Model.Data[i].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i+1].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i + 1].Isim</h5>
+                <p class="card-text">@Model.Data[i + 1].Fiyat</p>
+                <p class="card-text">@Model.Data[i + 1].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i + 1].Puan != null)
+                    {
+                    @Model.Data[i + 1].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i+1].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i+2].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i + 2].Isim</h5>
+                <p class="card-text">@Model.Data[i + 2].Fiyat</p>
+                <p class="card-text">@Model.Data[i + 2].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i + 2].Puan != null)
+                    {
+                    @Model.Data[i + 2].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i+2].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i+3].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i + 3].Isim</h5>
+                <p class="card-text">@Model.Data[i + 3].Fiyat</p>
+                <p class="card-text">@Model.Data[i + 3].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i+3].Puan != null)
+                    {
+                    @Model.Data[i+3].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i+3].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i+4].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i + 4].Isim</h5>
+                <p class="card-text">@Model.Data[i + 4].Fiyat</p>
+                <p class="card-text">@Model.Data[i + 4].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i + 4].Puan != null)
+                    {
+                    @Model.Data[i + 4].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i+4].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@Model.Data[i+5].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Data[i + 5].Isim</h5>
+                <p class="card-text">@Model.Data[i + 5].Fiyat</p>
+                <p class="card-text">@Model.Data[i + 5].Satıcı</p>
+                <p class="card-text">
+                    @if (@Model.Data[i + 5].Puan != null)
+                    {
+                    @Model.Data[i + 5].Puan;
+                    }
+                </p>
+                <a href=@Model.Data[i+5].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+    </div>
+    }
+    
+</div>

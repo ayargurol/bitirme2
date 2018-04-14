@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="row">
+    @if (ViewBag.error != null)
+    {
+    <h2>@ViewBag.error.ToString()</h2>
+    }
+    else
+    {
+    @for (int i = 0; i + 5 < @ViewBag.data.Count; i += 6)
+    {
+    <div class="row" style="margin-bottom:5px;">
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i].Puan != null)
+                    {
+                    @ViewBag.Data[i].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i+1].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i + 1].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i + 1].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i + 1].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i + 1].Puan != null)
+                    {
+                    @ViewBag.Data[i + 1].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i+1].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i+2].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i + 2].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i + 2].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i + 2].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i + 2].Puan != null)
+                    {
+                    @ViewBag.Data[i + 2].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i+2].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i+3].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i + 3].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i + 3].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i + 3].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i+3].Puan != null)
+                    {
+                    @ViewBag.Data[i+3].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i+3].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i+4].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i + 4].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i + 4].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i + 4].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i + 4].Puan != null)
+                    {
+                    @ViewBag.Data[i + 4].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i+4].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+        <div class="card col-2" style="width: 18rem;">
+            <img class="card-img-top" src=@ViewBag.Data[i+5].Resim alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@ViewBag.Data[i + 5].Isim</h5>
+                <p class="card-text">@ViewBag.Data[i + 5].Fiyat</p>
+                <p class="card-text">@ViewBag.Data[i + 5].Satıcı</p>
+                <p class="card-text">
+                    @if (@ViewBag.Data[i + 5].Puan != null)
+                    {
+                    @ViewBag.Data[i + 5].Puan;
+                    }
+                </p>
+                <a href=@ViewBag.Data[i+5].Link class="btn btn-primary">Ürüne Git</a>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>
