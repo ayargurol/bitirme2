@@ -1,53 +1,50 @@
-﻿using CoreWebApp2.Models;
-using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-// ReSharper disable InconsistentNaming
-// ReSharper disable FieldCanBeMadeReadOnly.Local
+using CoreWebApp2.Models;
+using HtmlAgilityPack;
 
 namespace CoreWebApp2.Custom
 {
-    public class hapServ
+    public class HapServ
     {
-        private string url;
-        private string baseUrl;
-        private string tekrarlanan;
-        private List<int> name;
-        private string name_atr;
-        private List<int> price;
-        private List<int> price_2;
-        private string price_atr;
-        private List<int> link;
-        private string link_extra;
-        private string link_atr;
-        private List<int> point;
-        private string point_atr;
-        private List<int> img;
-        private string img_atr;
-        private List<int> seller;
-        private string seller_atr;
+        private readonly string _url;
+        public string BaseUrl { get; }
+        private readonly string _tekrarlanan;
+        private readonly List<int> _name;
+        private readonly string _nameAtr;
+        private readonly List<int> _price;
+        private readonly List<int> _price2;
+        private readonly string _priceAtr;
+        private readonly List<int> _link;
+        private readonly string _linkExtra;
+        private readonly string _linkAtr;
+        private readonly List<int> _point;
+        private readonly string _pointAtr;
+        private readonly List<int> _img;
+        private readonly string _imgAtr;
+        private readonly List<int> _seller;
+        private readonly string _sellerAtr;
 
-        public hapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isim_atr, List<int> fiyat, List<int> fiyat_2, string fiyat_atr, List<int> link, string link_atr, string link_extra, List<int> puan, string puan_atr, List<int> resim, string resim_atr, List<int> satici, string satici_atr)
+        public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat, List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan, string puanAtr, List<int> resim, string resimAtr, List<int> satici, string saticiAtr)
         {
-            this.url = url;
-            this.baseUrl = baseUrl;
-            this.tekrarlanan = tekrarlanan;
-            this.name = isim;
-            this.name_atr = isim_atr;
-            this.price = fiyat;
-            this.price_2 = fiyat_2;
-            this.price_atr = fiyat_atr;
-            this.link = link;
-            this.link_atr = link_atr;
-            this.link_extra = link_extra;
-            this.point = puan;
-            this.point_atr = puan_atr;
-            this.img = resim;
-            this.img_atr = resim_atr;
-            this.seller = satici;
-            this.seller_atr = satici_atr;
+            _url = url;
+            BaseUrl = baseUrl;
+            _tekrarlanan = tekrarlanan;
+            _name = isim;
+            _nameAtr = isimAtr;
+            _price = fiyat;
+            _price2 = fiyat2;
+            _priceAtr = fiyatAtr;
+            _link = link;
+            _linkAtr = linkAtr;
+            _linkExtra = linkExtra;
+            _point = puan;
+            _pointAtr = puanAtr;
+            _img = resim;
+            _imgAtr = resimAtr;
+            _seller = satici;
+            _sellerAtr = saticiAtr;
         }
 
         public async Task<List<product>> GetProducts()
@@ -56,27 +53,27 @@ namespace CoreWebApp2.Custom
             {
                 var db = new List<product>();
                 HtmlWeb loader = new HtmlWeb();
-                var doc = loader.Load(this.url);
-                var liNode = doc.DocumentNode.SelectNodes(this.tekrarlanan);
+                var doc = loader.Load(_url);
+                var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
                 foreach (var item in liNode)
                 {
                     try
                     {
                         product pro = new product
                         {
-                            Isim = await this.Getname(item, this.name, this.name_atr),
-                            Fiyat = await this.Getprice(
+                            Isim = await Getname(item, _name, _nameAtr),
+                            Fiyat = await Getprice(
                                                       item,
-                                                      this.price,
-                                                      this.price_2,
-                                                      this.price_atr
+                                                      _price,
+                                                      _price2,
+                                                      _priceAtr
                                         ),
-                            Link = string.IsNullOrEmpty(this.link_extra)
-                                 ? await this.Getlink(item, this.link, this.link_atr)
-                                 : this.link_extra + await this.Getlink(item, this.link, this.link_atr),
-                            Resim = await this.Getimg(item, this.img, this.img_atr),
-                            Satıcı = await this.Getseller(item, this.seller, this.seller_atr),
-                            Puan = await this.Getpoint(item, this.point, this.point_atr)
+                            Link = string.IsNullOrEmpty(_linkExtra)
+                                 ? await Getlink(item, _link, _linkAtr)
+                                 : _linkExtra + await Getlink(item, _link, _linkAtr),
+                            Resim = await Getimg(item, _img, _imgAtr),
+                            Satıcı = await Getseller(item, _seller, _sellerAtr),
+                            Puan = await Getpoint(item, _point, _pointAtr)
                         };
                         if (pro.Fiyat == null || pro.Isim == null || pro.Link == null || pro.Resim == null)
                         {
@@ -87,7 +84,6 @@ namespace CoreWebApp2.Custom
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
-                        continue;
                     }
                 }
                 return db;
@@ -118,7 +114,7 @@ namespace CoreWebApp2.Custom
         public async Task<string> Getprice(HtmlNode li, List<int> child, List<int> child2, string atr)
         {
             var priceNode = li;
-            string price = null;
+            string price;
             try
             {
                 foreach (var item in child) priceNode = priceNode.ChildNodes[item];
@@ -130,7 +126,7 @@ namespace CoreWebApp2.Custom
             {
                 try
                 {
-                    price = null;
+//                    price = null;
                     priceNode = li;
                     foreach (var item in child2) priceNode = priceNode.ChildNodes[item];
                     price = string.IsNullOrEmpty(atr) ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty) : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty).Replace($"\n", string.Empty);

@@ -1,10 +1,10 @@
-﻿using CoreWebApp2.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CoreWebApp2.Models;
 
 namespace CoreWebApp2.Custom
 {
-    public class filters
+    public class Filters
     {
         public static List<product> PriceSort(List<product> db)
         {
@@ -12,9 +12,9 @@ namespace CoreWebApp2.Custom
             {
                 for (int j = 0; j < db.Count - i - 1; j++)
                 {
-                    if (parsedCompare(db[j].Fiyat, db[j + 1].Fiyat))
+                    if (ParsedCompare(db[j].Fiyat, db[j + 1].Fiyat))
                     {
-                        db = swap(db, j, j + 1);
+                        db = Swap(db, j, j + 1);
                     }
                 }
             }
@@ -22,23 +22,23 @@ namespace CoreWebApp2.Custom
         }
 
         // Swaps items at received indexes
-        private static List<product> swap(List<product> db, int a, int b)
+        private static List<product> Swap(List<product> db, int a, int b)
         {
-            var _temp = db[a];
+            var temp = db[a];
             db[a] = db[b];
-            db[b] = _temp;
+            db[b] = temp;
             return db;
         }
 
         //Removes "TL" from the end and compares.If first is bigger returns TRUE
-        private static bool parsedCompare(string first, string second)
+        private static bool ParsedCompare(string firstI, string secondI)
         {
             try
             {
                 //Bug
-                var _first = Convert.ToDouble(first.Remove(first.IndexOf('T'), 2));
-                var _second = Convert.ToDouble(second.Remove(second.IndexOf('T'), 2));
-                if (_first > _second)
+                var first = Convert.ToDouble(firstI.Remove(firstI.IndexOf('T'), 2));
+                var second = Convert.ToDouble(secondI.Remove(secondI.IndexOf('T'), 2));
+                if (first > second)
                 {
                     return true;
                 }

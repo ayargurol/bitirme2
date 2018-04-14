@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace CoreWebApp2.Models
 {
-    public class sites
+    public class Sites
     {
-        public int siteId { get; set; }
-        public string siteName { get; set; }
-        public string baseUrl { get; set; }
-        public string searchUrlPart1 { get; set; }
-        public string searcUrlPart2 { get; set; }
-        public string repatedItem { get; set; }
-        public List<int> nameChilds { get; set; }
-        public string nameAttribute { get; set; }
-        public List<int> priceChilds { get; set; }
-        public List<int> priceChildsTwo { get; set; }
-        public string priceAttribute { get; set; }
-        public List<int> linkChilds { get; set; }
-        public string linkAttribute { get; set; }
-        public string link_extra { get; set; }
-        public List<int> imageChilds { get; set; }
-        public string imageAttribute { get; set; }
-        public List<int> sellerChilds { get; set; }
-        public string sellerAttribute { get; set; }
-        public List<int> satisfactionChilds { get; set; }
-        public string satisfactionAttribute { get; set; }
+        public int SiteId { get; set; }
+        public string SiteName { get; set; }
+        public string BaseUrl { get; set; }
+        public string SearchUrlPart1 { get; set; }
+        public string SearcUrlPart2 { get; set; }
+        public string RepatedItem { get; set; }
+        public List<int> NameChilds { get; set; }
+        public string NameAttribute { get; set; }
+        public List<int> PriceChilds { get; set; }
+        public List<int> PriceChildsTwo { get; set; }
+        public string PriceAttribute { get; set; }
+        public List<int> LinkChilds { get; set; }
+        public string LinkAttribute { get; set; }
+        public string LinkExtra { get; set; }
+        public List<int> ImageChilds { get; set; }
+        public string ImageAttribute { get; set; }
+        public List<int> SellerChilds { get; set; }
+        public string SellerAttribute { get; set; }
+        public List<int> SatisfactionChilds { get; set; }
+        public string SatisfactionAttribute { get; set; }
     }
 }

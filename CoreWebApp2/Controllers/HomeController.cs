@@ -1,34 +1,34 @@
-﻿namespace CoreWebApp2.Controllers
-{
-    using CoreWebApp2.Custom;
-    using CoreWebApp2.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using CoreWebApp2.Custom;
+using CoreWebApp2.Models;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
+namespace CoreWebApp2.Controllers
+{
     public class HomeController : Controller
     {
-        private readonly List<product> db = new List<product>();
+        private readonly List<product> _db = new List<product>();
 
         public IActionResult Error()
         {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+            return View(
+                new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult Index()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult PriceFiltered(List<product> sort)
         {
-            var sorted = filters.PriceSort(sort);
-            return this.View(sorted);
+            var sorted = Filters.PriceSort(sort);
+            return View(sorted);
         }
 
         [HttpGet]
@@ -63,45 +63,45 @@
 
                 var sr = new StreamReader(
                     "C:/Users/Gurol/Belgelerim/Visual Studio 2017 Projects/CoreWebApp2/CoreWebApp2/Models/sites.json");
-                var siteler = JsonConvert.DeserializeObject<List<sites>>(sr.ReadToEnd());
+                var siteler = JsonConvert.DeserializeObject<List<Sites>>(sr.ReadToEnd());
                 foreach (var item in siteler)
                 {
-                    var hapServ = new hapServ(
-                        item.searchUrlPart1 + word + item.searcUrlPart2,
-                        item.baseUrl,
-                        item.repatedItem,
-                        item.nameChilds,
-                        item.nameAttribute,
-                        item.priceChilds,
-                        item.priceChildsTwo,
-                        item.priceAttribute,
-                        item.linkChilds,
-                        item.linkAttribute,
-                        item.link_extra,
-                        item.satisfactionChilds,
-                        item.satisfactionAttribute,
-                        item.imageChilds,
-                        item.imageAttribute,
-                        item.sellerChilds,
-                        item.sellerAttribute);
-                    this.db.AddRange(await hapServ.GetProducts());
+                    var hapServ = new HapServ(
+                        item.SearchUrlPart1 + word + item.SearcUrlPart2,
+                        item.BaseUrl,
+                        item.RepatedItem,
+                        item.NameChilds,
+                        item.NameAttribute,
+                        item.PriceChilds,
+                        item.PriceChildsTwo,
+                        item.PriceAttribute,
+                        item.LinkChilds,
+                        item.LinkAttribute,
+                        item.LinkExtra,
+                        item.SatisfactionChilds,
+                        item.SatisfactionAttribute,
+                        item.ImageChilds,
+                        item.ImageAttribute,
+                        item.SellerChilds,
+                        item.SellerAttribute);
+                    _db.AddRange(await hapServ.GetProducts());
                 }
                 // Bug: filters.PriceSort => Line 38,39 StartIndex  null Error
                 //var sorted = filters.PriceSort(this.db);
-                var sorted = this.db;
-                if (this.db == null) return this.RedirectToAction("Error");
+                var sorted = _db;
+                if (_db == null) return RedirectToAction("Error");
 
                 Console.WriteLine("------------------------------");
                 Console.WriteLine(sorted.Count);
                 Console.WriteLine("------------------------------");
 
-                return Json(new { data = db, status = true });
+                return Json(new { data = _db, status = true });
             }
             catch (Exception e)
             {
                 // TODO: Hata oluştur
                 Console.WriteLine(e.Message);
-                return this.RedirectToAction("Error");
+                return RedirectToAction("Error");
             }
         }
     }

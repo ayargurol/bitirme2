@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CoreWebApp2.Models
 {
-    public class sitesContext : DbContext
+    public class SitesContext : DbContext
     {
-        public sitesContext(): base()
+        public SitesContext(): base()
         {
             
         }
@@ -19,6 +15,6 @@ namespace CoreWebApp2.Models
         //{
 
         //}
-        public DbSet<sites> Sites { get; set; }
+        public DbSet<Sites> Sites { get; set; }
     }
 }
