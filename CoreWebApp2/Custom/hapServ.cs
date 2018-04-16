@@ -25,6 +25,7 @@ namespace CoreWebApp2.Custom
         private readonly string _imgAtr;
         private readonly List<int> _seller;
         private readonly string _sellerAtr;
+        private DateTime createdDateTime = DateTime.Now;
 
         public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat,
             List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan,
@@ -56,6 +57,8 @@ namespace CoreWebApp2.Custom
                 var db = new List<product>();
                 HtmlWeb loader = new HtmlWeb();
                 var doc = loader.Load(_url);
+                Console.WriteLine("Request answered from" + BaseUrl + " with " +
+                                  (DateTime.Now - createdDateTime).Milliseconds + " ms");
                 var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
                 foreach (var item in liNode)
                 {
@@ -70,19 +73,46 @@ namespace CoreWebApp2.Custom
                                 _price2,
                                 _priceAtr
                             ),
-                            Link = string.IsNullOrEmpty(_linkExtra)
-                                ? await Getlink(item, _link, _linkAtr)
-                                : _linkExtra + await Getlink(item, _link, _linkAtr),
+                            Link = await Getlink(item, _link, _linkAtr),
                             Resim = await Getimg(item, _img, _imgAtr),
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
                             Puan = await Getpoint(item, _point, _pointAtr)
                         };
+                        if (!string.IsNullOrEmpty(_linkExtra))
+                        {
+                            pro.Link = _linkExtra + pro.Link;
+                        }
+
                         if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
                             string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
                         {
                             continue;
                         }
-                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty);
+
+                        if (pro.Satıcı == null)
+                        {
+                            pro.Satıcı = string.Empty;
+                        }
+
+                        if (!string.IsNullOrEmpty(pro.Puan))
+                        {
+                            pro.Puan = pro.Puan.Replace(@"%", string.Empty);
+                            if (pro.Puan.Contains("width"))
+                            {
+                                pro.Puan = pro.Puan.Replace("width:", string.Empty).Replace(";", string.Empty);
+                            }
+                        }
+                        else
+                        {
+                            pro.Puan = string.Empty;
+                        }
+
+                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty).Replace(".", string.Empty);
+                        if (Convert.ToDouble(pro.Fiyat) >= 1000)
+                        {
+                            pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
+                        }
+
                         db.Add(pro);
                     }
                     catch (Exception e)

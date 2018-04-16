@@ -29,25 +29,33 @@
     <div class="page">
         <div class="page-main">
             <div class="header py-4">
-                @*<div class="container">
+                <div class="container">
                     <div class="d-flex">
                         <a class="header-brand" href="/Home/Index">
-                            <img src="~/assets/images/tabler.svg" class="header-brand-img" alt="tabler logo">
-                        </a>
-                        <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
-                            <span class="header-toggler-icon"></span>
+                            <img src="~/assets/tabler.svg" class="header-brand-img">
                         </a>
                     </div>
-                </div>*@
-                <div class="col-lg-3 ml-auto">
-                    <button class="btn btn-brand arama-buton" id="arama-buton">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <button class="btn btn-brand" id="arama-buton2" onclick="sortTable(4)">
-                        
-                    </button>
-                    <input type="text" class="form-control m-input arama" placeholder="Arama" aria-describedby="basic-addon1" id="arama">
                 </div>
+                <div class="row">
+                <div class="col-md-3"></div>
+                <div class="input-group col-md-6" style="margin-top:10px">
+                    <input type="text" class="form-control input-lg arama" placeholder="Arama" id="arama" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info arama-buton btn-lg" type="button" id="arama-buton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+                @*<div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-lg-3 col-md-8">
+                        <input type="text" class="form-control m-input arama col-md-11" placeholder="Arama" aria-describedby="basic-addon1" id="arama">
+                        <button class="btn btn-brand arama-buton col-md-1" id="arama-buton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>*@
             </div>
             <div class="my-3 my-md-5">
                 <div class="container">
@@ -63,7 +71,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="mb-4 text-center">
-                                                <img src="demo/products/apple-iphone7-special.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
+                                                <img src="~/assets/images/apple-iphone7-special.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
                                             </div>
                                             <h4 class="card-title"><a href="javascript:void(0)">Apple iPhone 7 Plus 256GB Red Special Edition</a></h4>
                                             <div class="card-subtitle">
@@ -81,7 +89,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="mb-4 text-center">
-                                                <img src="demo/products/gopro-hero.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
+                                                <img src="~/assets/images/gopro-hero.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
                                             </div>
                                             <h4 class="card-title"><a href="javascript:void(0)">GoPro HERO6 Black</a></h4>
                                             <div class="card-subtitle">
@@ -98,9 +106,19 @@
                             </div>
                         </div>
                         <div class="col-lg-9 sonuclar">
-
+                            <div class="card">
+                                <table class="table card-table table-vcenter" id="myTable">
+                                    <tr>
+                                    <th class="text-center">Ürün Resmi</th> 
+                                    <th class="text-center">Ürün Adı</th> 
+                                    <th class="text-center">Puan</th> 
+                                    <th class="text-center">Satıcı</th> 
+                                    <th class="text-center">Fiyat</th>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -132,18 +150,23 @@
                         for (var i = 0; i < veri.data.length; i++) {
                             content +=
                                 ' <tr>' +
-                                ' <td><img src="' + veri.data[i].resim + '" alt="" class="h-8"></td>' +
+                                ' <td><img src="' + veri.data[i].resim + '" style="max-width: none !important" alt="" class="h-8"></td>' +
                                 '  <td> ' +
                                 '<a href = ' + veri.data[i].link + '>' + veri.data[i].isim + '</a>' +
                                 ' </td>' +
-                                '<td class="text-right text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].puan + '</td>' +
-                                ' <td class="text-right text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].satıcı + '</td>' +
-                                ' <td class="text-right">' +
-                                '<strong>' + veri.data[i].fiyat + '</strong>' +
+                                '<td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].puan + '</td>' +
+                                ' <td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].satıcı + '</td>' +
+                                ' <td class="">' +
+                                '<strong>' + veri.data[i].fiyat +'₺'+ '</strong>' +
                                 '</td>' +
                                 ' </tr>';
                         }
-                        var table = ' <div class="card">' + ' <table class="table card-table table-vcenter" id="myTable"> <tr><th>a</th> <th>b</th> <th>c</th> <th>d</th> <th>e</th></tr>' + content + ' </table > ' + ' </div >';
+                        var table = ' <div class="card"> <table class="table card-table table-vcenter" id="myTable">' +
+                            '<tr><th class="text-center">Resim</th><th class="text-center" onclick="sortTable(1)"> Ürün Adı</th>' +
+                            '<th class="text-center" onclick="sortTable(2)">Puan</th><th class="text-center" onclick="sortTable(3)">Satıcı</th>' +
+                            '<th class="text-center" onclick="sortTable(4)">Fiyat</th></tr>' +
+                            content +
+                            ' </table ></div >';
                         $(".sonuclar").html(table);
                        
                     }
@@ -172,6 +195,7 @@
                 shouldSwitch = false;
                 x = rows[i].getElementsByTagName("TD")[n];
                 y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (n != 4) {
                 if (dir == "asc") {
                     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
@@ -181,6 +205,20 @@
                     if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
                         break;
+                        }
+                    }
+                }
+                else {
+                    if (dir == "asc") {
+                        if (parseInt(x.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, "")) > parseInt(y.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, ""))) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (parseInt(x.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, "")) < parseInt(y.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, ""))) {
+                            shouldSwitch = true;
+                            break;
+                        }
                     }
                 }
             }
