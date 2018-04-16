@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoreWebApp2.Custom;
 using CoreWebApp2.Models;
@@ -30,8 +31,7 @@ namespace CoreWebApp2.Controllers
         {
             try
             {
-                var sr = new StreamReader(
-                    "C:/Users/Gurol/Belgelerim/Visual Studio 2017 Projects/CoreWebApp2/CoreWebApp2/Models/sites.json");
+                var sr = new StreamReader(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"../../../Models/sites.json"));
                 var siteler = JsonConvert.DeserializeObject<List<Sites>>(sr.ReadToEnd());
                 foreach (var item in siteler)
                 {
