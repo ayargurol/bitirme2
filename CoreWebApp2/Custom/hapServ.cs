@@ -26,7 +26,9 @@ namespace CoreWebApp2.Custom
         private readonly List<int> _seller;
         private readonly string _sellerAtr;
 
-        public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat, List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan, string puanAtr, List<int> resim, string resimAtr, List<int> satici, string saticiAtr)
+        public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat,
+            List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan,
+            string puanAtr, List<int> resim, string resimAtr, List<int> satici, string saticiAtr)
         {
             _url = url;
             BaseUrl = baseUrl;
@@ -63,22 +65,24 @@ namespace CoreWebApp2.Custom
                         {
                             Isim = await Getname(item, _name, _nameAtr),
                             Fiyat = await Getprice(
-                                                      item,
-                                                      _price,
-                                                      _price2,
-                                                      _priceAtr
-                                        ),
+                                item,
+                                _price,
+                                _price2,
+                                _priceAtr
+                            ),
                             Link = string.IsNullOrEmpty(_linkExtra)
-                                 ? await Getlink(item, _link, _linkAtr)
-                                 : _linkExtra + await Getlink(item, _link, _linkAtr),
+                                ? await Getlink(item, _link, _linkAtr)
+                                : _linkExtra + await Getlink(item, _link, _linkAtr),
                             Resim = await Getimg(item, _img, _imgAtr),
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
                             Puan = await Getpoint(item, _point, _pointAtr)
                         };
-                        if (pro.Fiyat == null || pro.Isim == null || pro.Link == null || pro.Resim == null)
+                        if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
+                            string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
                         {
                             continue;
                         }
+                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty);
                         db.Add(pro);
                     }
                     catch (Exception e)
@@ -86,6 +90,7 @@ namespace CoreWebApp2.Custom
                         Console.WriteLine(e.Message);
                     }
                 }
+
                 return db;
             }
             catch (Exception e)
@@ -118,7 +123,9 @@ namespace CoreWebApp2.Custom
             try
             {
                 foreach (var item in child) priceNode = priceNode.ChildNodes[item];
-                price = string.IsNullOrEmpty(atr) ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty) : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty);
+                price = string.IsNullOrEmpty(atr)
+                    ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty)
+                    : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty);
                 await Task.Yield();
                 return price;
             }
@@ -129,7 +136,10 @@ namespace CoreWebApp2.Custom
 //                    price = null;
                     priceNode = li;
                     foreach (var item in child2) priceNode = priceNode.ChildNodes[item];
-                    price = string.IsNullOrEmpty(atr) ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty) : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty).Replace($"\n", string.Empty);
+                    price = string.IsNullOrEmpty(atr)
+                        ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty)
+                        : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty)
+                            .Replace($"\n", string.Empty);
                     await Task.Yield();
                     return price;
                 }
@@ -180,7 +190,9 @@ namespace CoreWebApp2.Custom
             {
                 foreach (var item in child) sellerNode = sellerNode.ChildNodes[item];
                 await Task.Yield();
-                return string.IsNullOrEmpty(atr) ? sellerNode.InnerText.Trim() : sellerNode.Attributes[atr].Value.Trim();
+                return string.IsNullOrEmpty(atr)
+                    ? sellerNode.InnerText.Trim()
+                    : sellerNode.Attributes[atr].Value.Trim();
             }
             catch (Exception)
             {
