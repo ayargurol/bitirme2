@@ -15,15 +15,15 @@ namespace CoreWebApp2.Controllers
     {
         private readonly List<product> _db = new List<product>();
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(
                 new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [HttpGet]
@@ -31,7 +31,8 @@ namespace CoreWebApp2.Controllers
         {
             try
             {
-                var sr = new StreamReader(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"../../../Models/sites.json"));
+                var sr = new StreamReader(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    @"../../../Models/sites.json"));
                 var siteler = JsonConvert.DeserializeObject<List<Sites>>(sr.ReadToEnd());
                 foreach (var item in siteler)
                 {
@@ -56,7 +57,6 @@ namespace CoreWebApp2.Controllers
                     _db.AddRange(await hapServ.GetProducts());
                 }
 
-                // Bug: filters.PriceSort => Line 38,39 StartIndex  null Error
                 var sorted = _db;
                 if (_db == null) return RedirectToAction("Error");
                 Console.WriteLine("------------------------------");

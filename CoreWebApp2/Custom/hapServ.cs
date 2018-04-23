@@ -25,7 +25,7 @@ namespace CoreWebApp2.Custom
         private readonly string _imgAtr;
         private readonly List<int> _seller;
         private readonly string _sellerAtr;
-        private DateTime createdDateTime = DateTime.Now;
+        private readonly DateTime _createdDateTime;
 
         public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat,
             List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan,
@@ -48,23 +48,25 @@ namespace CoreWebApp2.Custom
             _imgAtr = resimAtr;
             _seller = satici;
             _sellerAtr = saticiAtr;
+            _createdDateTime = DateTime.Now;
         }
 
         public async Task<List<product>> GetProducts()
         {
             try
             {
+                var deneme = DateTime.Now;
                 var db = new List<product>();
-                HtmlWeb loader = new HtmlWeb();
+                var loader = new HtmlWeb();
                 var doc = loader.Load(_url);
                 Console.WriteLine("Request answered from" + BaseUrl + " with " +
-                                  (DateTime.Now - createdDateTime).Milliseconds + " ms");
+                                  (DateTime.Now - deneme).Milliseconds + " ms");
                 var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
                 foreach (var item in liNode)
                 {
                     try
                     {
-                        product pro = new product
+                        var pro = new product
                         {
                             Isim = await Getname(item, _name, _nameAtr),
                             Fiyat = await Getprice(

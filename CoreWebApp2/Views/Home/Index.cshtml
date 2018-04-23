@@ -23,7 +23,11 @@
     <link href="~/assets/css/dashboard.css" rel="stylesheet" />
     <link href="~/assets/plugins/charts-c3/plugin.css" rel="stylesheet" />
     <link href="~/assets/plugins/maps-google/plugin.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="~/assets/js/vendors/paginathing.js"></script>
 </head>
 <body class="">
     <div class="page">
@@ -37,25 +41,16 @@
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-3"></div>
-                <div class="input-group col-md-6" style="margin-top:10px">
-                    <input type="text" class="form-control input-lg arama" placeholder="Arama" id="arama" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info arama-buton btn-lg" type="button" id="arama-buton">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-                @*<div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-lg-3 col-md-8">
-                        <input type="text" class="form-control m-input arama col-md-11" placeholder="Arama" aria-describedby="basic-addon1" id="arama">
-                        <button class="btn btn-brand arama-buton col-md-1" id="arama-buton">
-                            <i class="fa fa-search"></i>
-                        </button>
+                    <div class="col-md-3"></div>
+                    <div class="input-group col-md-6" style="margin-top:10px">
+                        <input type="text" class="form-control input-lg arama" placeholder="Arama" id="arama" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info arama-buton btn-lg" type="button" id="arama-buton">
+                                <i class="glyphicon glyphicon-search" style="font-size: 1.6rem !important;vertical-align: -0px !important"></i>
+                            </button>
+                        </span>
                     </div>
-                </div>*@
+                </div>
             </div>
             <div class="my-3 my-md-5">
                 <div class="container">
@@ -108,17 +103,23 @@
                         <div class="col-lg-9 sonuclar">
                             <div class="card">
                                 <table class="table card-table table-vcenter" id="myTable">
-                                    <tr>
-                                    <th class="text-center">Ürün Resmi</th> 
-                                    <th class="text-center">Ürün Adı</th> 
-                                    <th class="text-center">Puan</th> 
-                                    <th class="text-center">Satıcı</th> 
-                                    <th class="text-center">Fiyat</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Ürün Resmi</th>
+                                            <th class="text-center">Ürün Adı</th>
+                                            <th class="text-center">Puan</th>
+                                            <th class="text-center">Satıcı</th>
+                                            <th class="text-center">Fiyat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
                                 </table>
+                                <div id="pages">
+
+                                </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,9 +133,7 @@
     </div>
 </body>
 </html>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+
 <script>
     $(".arama-buton").click(function () {
         var word = $(".arama").val();
@@ -149,29 +148,31 @@
                     if (veri.status) {
                         for (var i = 0; i < veri.data.length; i++) {
                             content +=
-                                ' <tr>' +
-                                ' <td><img src="' + veri.data[i].resim + '" style="max-width: none !important" alt="" class="h-8"></td>' +
+                                '<tr>' +
+                            ' <td class="text-center"><img src="' + veri.data[i].resim + '" style="height: 100px !important; width: 100px !important" alt="" class="h-8"></td>' +
                                 '  <td> ' +
                                 '<a href = ' + veri.data[i].link + '>' + veri.data[i].isim + '</a>' +
                                 ' </td>' +
                                 '<td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].puan + '</td>' +
                                 ' <td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].satıcı + '</td>' +
                                 ' <td class="">' +
-                                '<strong>' + veri.data[i].fiyat +'₺'+ '</strong>' +
+                                '<strong>' + veri.data[i].fiyat +'₺ </strong>' +
                                 '</td>' +
                                 ' </tr>';
                         }
                         var table = ' <div class="card"> <table class="table card-table table-vcenter" id="myTable">' +
-                            '<tr><th class="text-center">Resim</th><th class="text-center" onclick="sortTable(1)"> Ürün Adı</th>' +
+                            '<thead><tr><th class="text-center" style="width:20%">Ürün Resmi</th><th class="text-center" onclick="sortTable(1)"> Ürün Adı</th>' +
                             '<th class="text-center" onclick="sortTable(2)">Puan</th><th class="text-center" onclick="sortTable(3)">Satıcı</th>' +
-                            '<th class="text-center" onclick="sortTable(4)">Fiyat</th></tr>' +
+                            '<th class="text-center" onclick="sortTable(4)">Fiyat</th></tr></thead>' +
                             content +
-                            ' </table ></div >';
+                            '</tbody></table></div>';
                         $(".sonuclar").html(table);
-                       
+                        $('table tbody').paginathing();
                     }
-                },
+
+                }
         });
+
     });
 </script>
 @*
@@ -184,8 +185,8 @@
 <script>
     function sortTable(n) {
         debugger;
-        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = document.getElementById("myTable");
+        var rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        var table = document.getElementById("myTable");
         switching = true;
         dir = "asc";
         while (switching) {
@@ -196,15 +197,15 @@
                 x = rows[i].getElementsByTagName("TD")[n];
                 y = rows[i + 1].getElementsByTagName("TD")[n];
                 if (n != 4) {
-                if (dir == "asc") {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else if (dir == "desc") {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
                         }
                     }
                 }
@@ -234,4 +235,6 @@
             }
         }
     }
+</script>
+<script>
 </script>
