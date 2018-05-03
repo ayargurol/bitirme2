@@ -13,7 +13,7 @@ namespace CoreWebApp2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly List<product> _db = new List<product>();
+        private SearchViewModel _db = new SearchViewModel();
 
         public IActionResult Index()
         {
@@ -38,6 +38,7 @@ namespace CoreWebApp2.Controllers
                 {
                     var hapServ = new HapServ(
                         item.SearchUrlPart1 + word + item.SearcUrlPart2,
+                        item.SiteName,
                         item.BaseUrl,
                         item.RepatedItem,
                         item.NameChilds,
@@ -54,15 +55,44 @@ namespace CoreWebApp2.Controllers
                         item.ImageAttribute,
                         item.SellerChilds,
                         item.SellerAttribute);
-                    _db.AddRange(await hapServ.GetProducts());
+                    var data = await hapServ.GetProducts();
+                    if (_db.N11Count == 0 && _db.GittigidiyorCount == 0 && _db.HepsiburadaCount == 0)
+                    {
+                        _db = data;
+                    }
+                    else
+                    {
+                        _db.N11Count += data.N11Count;
+                        _db.GittigidiyorCount += data.GittigidiyorCount;
+                        _db.HepsiburadaCount += data.HepsiburadaCount;
+                        _db.Products.AddRange(data.Products);
+                        _db.CountPrices.c0_25 += data.CountPrices.c0_25;
+                        _db.CountPrices.c25_50 += data.CountPrices.c25_50;
+                        _db.CountPrices.c50_100 += data.CountPrices.c50_100;
+                        _db.CountPrices.c100_250 += data.CountPrices.c100_250;
+                        _db.CountPrices.c250_500 += data.CountPrices.c250_500;
+                        _db.CountPrices.c500_1000 += data.CountPrices.c500_1000;
+                        _db.CountPrices.c1000_2500 += data.CountPrices.c1000_2500;
+                        _db.CountPrices.c2500_5000 += data.CountPrices.c2500_5000;
+                        _db.CountPrices.c5000_plus += data.CountPrices.c5000_plus;
+                    }
                 }
 
-                var sorted = _db;
                 if (_db == null) return RedirectToAction("Error");
                 Console.WriteLine("------------------------------");
-                Console.WriteLine(sorted.Count);
+                Console.WriteLine(_db.Products.Count);
                 Console.WriteLine("------------------------------");
-                return Json(new {data = _db, status = true});
+                Console.WriteLine(JsonConvert.SerializeObject(_db.CountPrices));
+                Console.WriteLine("------------------------------");
+                Console.WriteLine(_db.N11Count);
+                Console.WriteLine("------------------------------");
+                Console.WriteLine(_db.GittigidiyorCount);
+                Console.WriteLine("------------------------------");
+                Console.WriteLine(_db.HepsiburadaCount);
+                Console.WriteLine("------------------------------");
+                //TODO: Tayfuncum Bura sende
+                //TODO: JS yi ayarladıktan sonra data=_db yaparsın :D
+                return Json(new {data = _db.Products, status = true});
             }
             catch (Exception e)
             {

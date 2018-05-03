@@ -9,6 +9,7 @@ namespace CoreWebApp2.Custom
     public class HapServ
     {
         private readonly string _url;
+        private readonly string _sitename;
         public string BaseUrl { get; }
         private readonly string _tekrarlanan;
         private readonly List<int> _name;
@@ -27,11 +28,13 @@ namespace CoreWebApp2.Custom
         private readonly string _sellerAtr;
         private readonly DateTime _createdDateTime;
 
-        public HapServ(string url, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr, List<int> fiyat,
+        public HapServ(string url, string sitename, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr,
+            List<int> fiyat,
             List<int> fiyat2, string fiyatAtr, List<int> link, string linkAtr, string linkExtra, List<int> puan,
             string puanAtr, List<int> resim, string resimAtr, List<int> satici, string saticiAtr)
         {
             _url = url;
+            _sitename = sitename;
             BaseUrl = baseUrl;
             _tekrarlanan = tekrarlanan;
             _name = isim;
@@ -51,12 +54,12 @@ namespace CoreWebApp2.Custom
             _createdDateTime = DateTime.Now;
         }
 
-        public async Task<List<product>> GetProducts()
+        public async Task<SearchViewModel> GetProducts()
         {
             try
             {
                 var deneme = DateTime.Now;
-                var db = new List<product>();
+                var db = new SearchViewModel();
                 var loader = new HtmlWeb();
                 var doc = loader.Load(_url);
                 Console.WriteLine("Request answered from" + BaseUrl + " with " +
@@ -110,12 +113,63 @@ namespace CoreWebApp2.Custom
                         }
 
                         pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty).Replace(".", string.Empty);
-                        if (Convert.ToDouble(pro.Fiyat) >= 1000)
+                        var proFiyat = Convert.ToDouble(pro.Fiyat);
+                        if (proFiyat >= 1000)
                         {
                             pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
                         }
 
-                        db.Add(pro);
+                        if (_sitename == "n11")
+                        {
+                            db.N11Count++;
+                        }
+                        else if (_sitename == "gittigidiyor")
+                        {
+                            db.GittigidiyorCount++;
+                        }
+                        else if (_sitename == "hepsiburada")
+                        {
+                            db.HepsiburadaCount++;
+                        }
+
+                        if (proFiyat < 25)
+                        {
+                            db.CountPrices.c0_25++;
+                        }
+                        else if (proFiyat < 50)
+                        {
+                            db.CountPrices.c25_50++;
+                        }
+                        else if (proFiyat < 100)
+                        {
+                            db.CountPrices.c50_100++;
+                        }
+                        else if (proFiyat < 250)
+                        {
+                            db.CountPrices.c100_250++;
+                        }
+                        else if (proFiyat < 500)
+                        {
+                            db.CountPrices.c250_500++;
+                        }
+                        else if (proFiyat < 1000)
+                        {
+                            db.CountPrices.c500_1000++;
+                        }
+                        else if (proFiyat < 2500)
+                        {
+                            db.CountPrices.c1000_2500++;
+                        }
+                        else if (proFiyat < 5000)
+                        {
+                            db.CountPrices.c2500_5000++;
+                        }
+                        else
+                        {
+                            db.CountPrices.c5000_plus++;
+                        }
+
+                        db.Products.Add(pro);
                     }
                     catch (Exception e)
                     {
