@@ -23,6 +23,7 @@
     <link href="~/assets/css/dashboard.css" rel="stylesheet" />
     <link href="~/assets/plugins/charts-c3/plugin.css" rel="stylesheet" />
     <link href="~/assets/plugins/maps-google/plugin.css" rel="stylesheet" />
+    <link href="~/assets/css/loader.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -45,7 +46,7 @@
                     <div class="input-group col-md-6" style="margin-top:10px">
                         <input type="text" class="form-control input-lg arama" placeholder="Arama" id="arama" />
                         <span class="input-group-btn">
-                            <button class="btn btn-info arama-buton btn-lg" type="button" id="arama-buton">
+                            <button class="btn btn-info arama-buton btn-lg" type="button" id="arama-buton" onclick="loaderGetir()">
                                 <i class="glyphicon glyphicon-search" style="font-size: 1.6rem !important;vertical-align: -0px !important"></i>
                             </button>
                         </span>
@@ -62,43 +63,17 @@
                     <div class="row row-cards">
                         <div class="col-lg-3">
                             <div class="row">
-                                <div class="col-md-6 col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="mb-4 text-center">
-                                                <img src="~/assets/images/apple-iphone7-special.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
-                                            </div>
-                                            <h4 class="card-title"><a href="javascript:void(0)">Apple iPhone 7 Plus 256GB Red Special Edition</a></h4>
-                                            <div class="card-subtitle">
-                                                Apple
-                                            </div>
-                                            <div class="mt-5 d-flex align-items-center">
-                                                <div class="product-price">
-                                                    <strong>$499</strong>
-                                                </div>
-                                            </div>
+                                <div class="col-md-6 col-lg-12 siteStats">
+                                    <div class="card" id="siteCard" style="border:none">
+                                        <div class="loader text-center" id="loader" style="display:none;margin-left:27.5%"></div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-6 col-lg-12 fiyatStats">
+                                    <div class="card" id="fiyatCard" style="border:none ">
+                                        <div class="loader text-center" id="loader3" style="display:none;margin-left:27.5%"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="mb-4 text-center">
-                                                <img src="~/assets/images/gopro-hero.jpg" alt="Apple iPhone 7 128GB" class="img-fluid">
-                                            </div>
-                                            <h4 class="card-title"><a href="javascript:void(0)">GoPro HERO6 Black</a></h4>
-                                            <div class="card-subtitle">
-                                                GoPro
-                                            </div>
-                                            <div class="mt-5 d-flex align-items-center">
-                                                <div class="product-price">
-                                                    <strong>$599</strong>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-lg-9 sonuclar">
                             <div class="card">
@@ -114,8 +89,9 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
-                                <div id="pages">
+                                          <div class="loader text-center" id="loader2" style="display:none;margin-left:45%;margin-bottom:3%;"></div>
 
+                                <div id="pages">
                                 </div>
                             </div>
                         </div>
@@ -123,7 +99,6 @@
                 </div>
             </div>
         </div>
-
         <footer class="footer">
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
@@ -137,8 +112,10 @@
 <script>
     $(".arama-buton").click(function () {
         var word = $(".arama").val();
-        var url = "@Url.Action("Search","Home")/" + word;
+        var url = "@Url.Action(action: "Search",controller: "Home")/" + word;
         var content = "";
+        var siteStats = "";
+        var fiyatStats = "";
         $.ajax({
             method: 'GET',
             url: url,
@@ -146,17 +123,18 @@
             success:
                 function (veri) {
                     if (veri.status) {
-                        for (var i = 0; i < veri.data.length; i++) {
+                        console.log(veri);
+                        for (var i = 0; i < veri.data.products.length; i++) {
                             content +=
                                 '<tr>' +
-                            ' <td class="text-center"><img src="' + veri.data[i].resim + '" style="height: 100px !important; width: 100px !important" alt="" class="h-8"></td>' +
+                            ' <td class="text-center"><img src="' + veri.data.products[i].resim + '" style="height: 100px !important; width: 100px !important" alt="" class="h-8"></td>' +
                                 '  <td> ' +
-                                '<a href = ' + veri.data[i].link + '>' + veri.data[i].isim + '</a>' +
+                            '<a href = ' + veri.data.products[i].link + '>' + veri.data.products[i].isim + '</a>' +
                                 ' </td>' +
-                                '<td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].puan + '</td>' +
-                                ' <td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data[i].satıcı + '</td>' +
+                            '<td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data.products[i].puan + '</td>' +
+                            ' <td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data.products[i].satıcı + '</td>' +
                                 ' <td class="">' +
-                                '<strong>' + veri.data[i].fiyat +'₺ </strong>' +
+                            '<strong>' + veri.data.products[i].fiyat +'₺ </strong>' +
                                 '</td>' +
                                 ' </tr>';
                         }
@@ -166,8 +144,82 @@
                             '<th class="text-center" onclick="sortTable(4)">Fiyat</th></tr></thead>' +
                             content +
                             '</tbody></table></div>';
+                        siteStats =
+                           ' <div class="card">' +
+                            '<div class="card-body" style="margin-left: 10px;">' +
+                               ' <div class="row">' +
+                                   ' <div class="mb-4 text-center">' +
+                                      '<a href="https://www.gittigidiyor.com/"><img src="/images/gglogo.png" alt="GittiGidiyor" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                               ' </div>' +
+                        '<p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.gittigidiyorCount + '</a></p>' +
+                                   ' </div>' +
+                                    '<div class="row">' +
+                                        '<div class="mb-4 text-center">' +
+                                           '<a href="https://www.hepsiburada.com/"><img src="/images/hblogo.png" alt="HepsiBurada" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                               ' </div>' +
+                        ' <p" style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.hepsiburadaCount + '</a></p>' +
+                                       ' </div>' +
+                                       ' <div class="row">' +
+                                            '<div class="mb-4 text-center">' +
+                                              '<a href="https://www.n11.com/"><img src="/images/n11logo.png" alt="N11" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                              '  </div>' +
+                        '  <p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.n11Count + '</a></p>' +
+                                           ' </div>' +
+                            '</div> </div>';
+                        fiyatStats =
+                            '<table class="table table-bordered table-striped">     '+
+                            '    <thead>                                            '+
+                            '        <tr>                                           '+
+                            '            <th class="text-center">Fiyat Aralığı</th> '+
+                            '            <th class="text-center">Miktar</th>        '+
+                            '        </tr>                                          '+
+                            '    </thead>                                           '+
+                            '    <tbody>                                            '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">0-25₺</td>         '+
+                        '            <td class="text-center">' + veri.data.countPrices.c0_25 +'</td>          '+
+                            '                                                       '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">25-50₺</td>        '+
+                        '            <td class="text-center">' + veri.data.countPrices.c25_50 +'</td>         '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">50-100₺</td>       '+
+                        '            <td class="text-center">' + veri.data.countPrices.c50_100 +'</td>         '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">100-250₺</td>      '+
+                        '            <td class="text-center">' + veri.data.countPrices.c100_250 +'</td>          '+
+                            '                                                       '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">250-500₺</td>      '+
+                        '            <td class="text-center">' + veri.data.countPrices.c250_500 +'</td>         '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">500-1000₺</td>     '+
+                        '            <td class="text-center">' + veri.data.countPrices.c500_1000 +'</td>         '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">1000-2500₺</td>    '+
+                        '            <td class="text-center">' + veri.data.countPrices.c1000_2500 +'</td>          '+
+                            '                                                       '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">2500-5000₺</td>    '+
+                        '            <td class="text-center">' + veri.data.countPrices.c2500_5000 +'</td>         '+
+                            '        </tr>                                          '+
+                            '        <tr>                                           '+
+                            '            <td class="text-center">5000₺+</td>        '+
+                        '            <td class="text-center">' + veri.data.countPrices.c5000_plus +'</td>         '+
+                            '        </tr>                                          '+
+                            '    </tbody>                                           '+
+                            '</table>'
+                        $(".siteStats").html(siteStats);
                         $(".sonuclar").html(table);
                         $('table tbody').paginathing();
+                        $(".fiyatStats").html(fiyatStats);
                     }
 
                 }
@@ -175,13 +227,29 @@
 
     });
 </script>
-@*
-    <script>
-        function loaderGetir() {
-
-            document.getElementById("loader").style.display = "block";
+<script>
+    function loaderGetir() {
+        var element = document.getElementById("loader");
+        element.style.display = "block";
+        var element2 = document.getElementById("loader2");
+        element2.style.display = "block";
+        var element3 = document.getElementById("loader3");
+        element3.style.display = "block";
+        var element4 = document.getElementById("fiyatCard");
+        element4.style.border = "1px solid rgba(0, 40, 100, 0.12)";
+        var element5 = document.getElementById("siteCard");
+        element5.style.border = "1px solid rgba(0, 40, 100, 0.12)";
+    }
+</script>
+<script>
+    var input = document.getElementById("arama");
+    input.addEventListener("keyup", function (event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById("arama-buton").click();
         }
-    </script>*@
+    });
+</script>
 <script>
     function sortTable(n) {
         debugger;
@@ -235,6 +303,4 @@
             }
         }
     }
-</script>
-<script>
 </script>

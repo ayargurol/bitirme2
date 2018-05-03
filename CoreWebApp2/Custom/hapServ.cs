@@ -26,7 +26,6 @@ namespace CoreWebApp2.Custom
         private readonly string _imgAtr;
         private readonly List<int> _seller;
         private readonly string _sellerAtr;
-        private readonly DateTime _createdDateTime;
 
         public HapServ(string url, string sitename, string baseUrl, string tekrarlanan, List<int> isim, string isimAtr,
             List<int> fiyat,
@@ -51,7 +50,6 @@ namespace CoreWebApp2.Custom
             _imgAtr = resimAtr;
             _seller = satici;
             _sellerAtr = saticiAtr;
-            _createdDateTime = DateTime.Now;
         }
 
         public async Task<SearchViewModel> GetProducts()
@@ -62,8 +60,9 @@ namespace CoreWebApp2.Custom
                 var db = new SearchViewModel();
                 var loader = new HtmlWeb();
                 var doc = loader.Load(_url);
-                Console.WriteLine("Request answered from" + BaseUrl + " with " +
-                                  (DateTime.Now - deneme).Milliseconds + " ms");
+                Console.WriteLine("Request answered from" + _sitename + " with " +
+                                         (DateTime.Now - deneme).Seconds +"s "+
+                                         (DateTime.Now - deneme).Milliseconds + "ms");
                 var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
                 foreach (var item in liNode)
                 {
@@ -83,7 +82,8 @@ namespace CoreWebApp2.Custom
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
                             Puan = await Getpoint(item, _point, _pointAtr)
                         };
-                        if (!string.IsNullOrEmpty(_linkExtra))
+                        if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
+                            (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
                         {
                             pro.Link = _linkExtra + pro.Link;
                         }
@@ -104,7 +104,8 @@ namespace CoreWebApp2.Custom
                             pro.Puan = pro.Puan.Replace(@"%", string.Empty);
                             if (pro.Puan.Contains("width"))
                             {
-                                pro.Puan = pro.Puan.Replace("width:", string.Empty).Replace(";", string.Empty);
+                                pro.Puan = pro.Puan.Replace("width:", string.Empty)
+                                    .Replace(";", string.Empty);
                             }
                         }
                         else
@@ -112,24 +113,25 @@ namespace CoreWebApp2.Custom
                             pro.Puan = string.Empty;
                         }
 
-                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty).Replace(".", string.Empty);
+                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty)
+                            .Replace(".", string.Empty);
                         var proFiyat = Convert.ToDouble(pro.Fiyat);
                         if (proFiyat >= 1000)
                         {
                             pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
                         }
 
-                        if (_sitename == "n11")
+                        switch (_sitename)
                         {
-                            db.N11Count++;
-                        }
-                        else if (_sitename == "gittigidiyor")
-                        {
-                            db.GittigidiyorCount++;
-                        }
-                        else if (_sitename == "hepsiburada")
-                        {
-                            db.HepsiburadaCount++;
+                            case "n11":
+                                db.N11Count++;
+                                break;
+                            case "gittigidiyor":
+                                db.GittigidiyorCount++;
+                                break;
+                            case "hepsiburada":
+                                db.HepsiburadaCount++;
+                                break;
                         }
 
                         if (proFiyat < 25)
@@ -193,7 +195,9 @@ namespace CoreWebApp2.Custom
             {
                 await Task.Yield();
                 foreach (var item in child) nameNode = nameNode.ChildNodes[item];
-                return string.IsNullOrEmpty(atr) ? nameNode.InnerText.Trim() : nameNode.Attributes[atr].Value.Trim();
+                return string.IsNullOrEmpty(atr)
+                    ? nameNode.InnerText.Trim()
+                    : nameNode.Attributes[atr].Value.Trim();
             }
             catch (Exception)
             {
@@ -210,8 +214,10 @@ namespace CoreWebApp2.Custom
             {
                 foreach (var item in child) priceNode = priceNode.ChildNodes[item];
                 price = string.IsNullOrEmpty(atr)
-                    ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty)
-                    : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty);
+                    ? priceNode.InnerText.Trim().Replace(" ", string.Empty)
+                        .Replace("\n", string.Empty)
+                    : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty)
+                        .Replace("\n", string.Empty);
                 await Task.Yield();
                 return price;
             }
@@ -223,7 +229,8 @@ namespace CoreWebApp2.Custom
                     priceNode = li;
                     foreach (var item in child2) priceNode = priceNode.ChildNodes[item];
                     price = string.IsNullOrEmpty(atr)
-                        ? priceNode.InnerText.Trim().Replace(" ", string.Empty).Replace("\n", string.Empty)
+                        ? priceNode.InnerText.Trim().Replace(" ", string.Empty)
+                            .Replace("\n", string.Empty)
                         : priceNode.Attributes[atr].Value.Trim().Replace(" ", string.Empty)
                             .Replace($"\n", string.Empty);
                     await Task.Yield();
@@ -244,7 +251,9 @@ namespace CoreWebApp2.Custom
             {
                 foreach (var item in child) linkNode = linkNode.ChildNodes[item];
                 await Task.Yield();
-                return string.IsNullOrEmpty(atr) ? linkNode.InnerText.Trim() : linkNode.Attributes[atr].Value.Trim();
+                return string.IsNullOrEmpty(atr)
+                    ? linkNode.InnerText.Trim()
+                    : linkNode.Attributes[atr].Value.Trim();
             }
             catch (Exception)
             {
@@ -260,7 +269,9 @@ namespace CoreWebApp2.Custom
             {
                 foreach (var item in child) imgNode = imgNode.ChildNodes[item];
                 await Task.Yield();
-                return string.IsNullOrEmpty(atr) ? imgNode.InnerText.Trim() : imgNode.Attributes[atr].Value.Trim();
+                return string.IsNullOrEmpty(atr)
+                    ? imgNode.InnerText.Trim()
+                    : imgNode.Attributes[atr].Value.Trim();
             }
             catch (Exception)
             {
@@ -294,7 +305,9 @@ namespace CoreWebApp2.Custom
             {
                 foreach (var item in child) pointNode = pointNode.ChildNodes[item];
                 await Task.Yield();
-                return string.IsNullOrEmpty(atr) ? pointNode.InnerText.Trim() : pointNode.Attributes[atr].Value.Trim();
+                return string.IsNullOrEmpty(atr)
+                    ? pointNode.InnerText.Trim()
+                    : pointNode.Attributes[atr].Value.Trim();
             }
             catch (Exception)
             {

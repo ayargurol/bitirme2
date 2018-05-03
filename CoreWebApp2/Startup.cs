@@ -30,12 +30,12 @@ namespace CoreWebApp2
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(errorHandlingPath: "/Home/Error");
             }
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseMvc(configureRoutes: routes =>
             {
                 routes.MapRoute(
                     name: "default",

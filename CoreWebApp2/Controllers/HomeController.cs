@@ -23,7 +23,7 @@ namespace CoreWebApp2.Controllers
         public IActionResult Error()
         {
             return View(
-                new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+                model: new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
         [HttpGet]
@@ -31,30 +31,33 @@ namespace CoreWebApp2.Controllers
         {
             try
             {
-                var sr = new StreamReader(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    @"../../../Models/sites.json"));
-                var siteler = JsonConvert.DeserializeObject<List<Sites>>(sr.ReadToEnd());
+                var sr = new StreamReader(
+                        path: Path.Combine(
+                        path1: Path.GetDirectoryName(path: Assembly.GetExecutingAssembly().Location),
+                        path2: @"../../../Models/sites.json"));
+
+                var siteler = JsonConvert.DeserializeObject<List<Sites>>(value: sr.ReadToEnd());
                 foreach (var item in siteler)
                 {
                     var hapServ = new HapServ(
-                        item.SearchUrlPart1 + word + item.SearcUrlPart2,
-                        item.SiteName,
-                        item.BaseUrl,
-                        item.RepatedItem,
-                        item.NameChilds,
-                        item.NameAttribute,
-                        item.PriceChilds,
-                        item.PriceChildsTwo,
-                        item.PriceAttribute,
-                        item.LinkChilds,
-                        item.LinkAttribute,
-                        item.LinkExtra,
-                        item.SatisfactionChilds,
-                        item.SatisfactionAttribute,
-                        item.ImageChilds,
-                        item.ImageAttribute,
-                        item.SellerChilds,
-                        item.SellerAttribute);
+                        url: item.SearchUrlPart1 + word + item.SearcUrlPart2,
+                        sitename: item.SiteName,
+                        baseUrl: item.BaseUrl,
+                        tekrarlanan: item.RepatedItem,
+                        isim: item.NameChilds,
+                        isimAtr: item.NameAttribute,
+                        fiyat: item.PriceChilds,
+                        fiyat2: item.PriceChildsTwo,
+                        fiyatAtr: item.PriceAttribute,
+                        link: item.LinkChilds,
+                        linkAtr: item.LinkAttribute,
+                        linkExtra: item.LinkExtra,
+                        puan: item.SatisfactionChilds,
+                        puanAtr: item.SatisfactionAttribute,
+                        resim: item.ImageChilds,
+                        resimAtr: item.ImageAttribute,
+                        satici: item.SellerChilds,
+                        saticiAtr: item.SellerAttribute);
                     var data = await hapServ.GetProducts();
                     if (_db.N11Count == 0 && _db.GittigidiyorCount == 0 && _db.HepsiburadaCount == 0)
                     {
@@ -92,13 +95,13 @@ namespace CoreWebApp2.Controllers
                 Console.WriteLine("------------------------------");
                 //TODO: Tayfuncum Bura sende
                 //TODO: JS yi ayarladıktan sonra data=_db yaparsın :D
-                return Json(new {data = _db.Products, status = true});
+                return Json(data: new {data = _db, status = true});
             }
             catch (Exception e)
             {
                 // TODO: Hata oluştur
-                Console.WriteLine(e.Message);
-                return RedirectToAction("Error");
+                Console.WriteLine(value: e.Message);
+                return RedirectToAction(actionName: "Error");
             }
         }
     }

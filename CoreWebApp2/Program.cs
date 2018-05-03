@@ -7,11 +7,11 @@ namespace CoreWebApp2
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args: args).Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args: args)
                 .UseStartup<Startup>()
                 .Build();
     }
