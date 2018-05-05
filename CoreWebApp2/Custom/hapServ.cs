@@ -60,7 +60,7 @@ namespace CoreWebApp2.Custom
                 var db = new SearchViewModel();
                 var loader = new HtmlWeb();
                 var doc = loader.Load(_url);
-                Console.WriteLine("Request answered from" + _sitename + " with " +
+                Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
                                          (DateTime.Now - deneme).Seconds +"s "+
                                          (DateTime.Now - deneme).Milliseconds + "ms");
                 var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
