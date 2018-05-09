@@ -16,5 +16,7 @@
         public string Satıcı { get; set; }
 
         public string Puan { get; set; }
+
+        public string Kategori { get; set; }
     }
 }

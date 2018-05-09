@@ -61,7 +61,7 @@ namespace CoreWebApp2.Custom
                 var loader = new HtmlWeb();
                 var doc = loader.Load(_url);
                 Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
-                                         (DateTime.Now - deneme).Seconds +"s "+
+                                         (DateTime.Now - deneme).Seconds + "s " +
                                          (DateTime.Now - deneme).Milliseconds + "ms");
                 var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
                 foreach (var item in liNode)
@@ -83,18 +83,25 @@ namespace CoreWebApp2.Custom
                             Puan = await Getpoint(item, _point, _pointAtr),
                             Site = _sitename
                         };
-                        
+
                         if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
                             (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
                         {
                             pro.Link = _linkExtra + pro.Link;
                         }
 
-                        GetCategory(pro.Link);
                         if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
                             string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
                         {
                             continue;
+                        }
+                        if (_sitename != "hepsiburada")
+                        {
+                            pro.Kategori = await GetCategory(pro.Link);
+                        }
+                        else
+                        {
+                            pro.Kategori=string.Empty;
                         }
 
                         if (pro.Satıcı == null)
@@ -228,7 +235,7 @@ namespace CoreWebApp2.Custom
             {
                 try
                 {
-//                    price = null;
+                    //                    price = null;
                     priceNode = li;
                     foreach (var item in child2) priceNode = priceNode.ChildNodes[item];
                     price = string.IsNullOrEmpty(atr)
@@ -319,15 +326,24 @@ namespace CoreWebApp2.Custom
             }
         }
 
-        public async void GetCategory(string link)
+        public async Task<string> GetCategory(string link)
         {
             //https://urun.n11.com/dizustu-bilgisayar/apple-13macbook-pro-mlh12tua-mlvp2tua-i5-29-ghz256touchbar-P182726806
             //https://urun.gittigidiyor.com/bilgisayar-tablet/apple-mpxv2tu-a-13-inc-macbook-pro-with-touch-bar-3-1-ghz-dual-core-i5-256gb-space-grey-346234465
-
-            link = link.Remove(startIndex:0, count: link.IndexOf(".com",0, StringComparison.Ordinal)+5);
-            link.Remove(startIndex: link.IndexOf("/");
-            Console.WriteLine(link);
-            await Task.Yield();
+            try
+            {
+                var keeped = link;
+                link = link.Remove(startIndex: 0, count: link.IndexOf(value: ".com", startIndex: 0, comparisonType: StringComparison.Ordinal) + 5);
+                var startIndexOfSlash = link.IndexOf("/");
+                link = link.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash - 1);
+                Console.WriteLine(value: link);
+                await Task.Yield();
+                return link.Replace('-',' ');
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }
