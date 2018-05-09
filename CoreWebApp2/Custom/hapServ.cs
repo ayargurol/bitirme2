@@ -80,14 +80,17 @@ namespace CoreWebApp2.Custom
                             Link = await Getlink(item, _link, _linkAtr),
                             Resim = await Getimg(item, _img, _imgAtr),
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
-                            Puan = await Getpoint(item, _point, _pointAtr)
+                            Puan = await Getpoint(item, _point, _pointAtr),
+                            Site = _sitename
                         };
+                        
                         if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
                             (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
                         {
                             pro.Link = _linkExtra + pro.Link;
                         }
 
+                        GetCategory(pro.Link);
                         if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
                             string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
                         {
@@ -314,6 +317,17 @@ namespace CoreWebApp2.Custom
                 await Task.Yield();
                 return null;
             }
+        }
+
+        public async void GetCategory(string link)
+        {
+            //https://urun.n11.com/dizustu-bilgisayar/apple-13macbook-pro-mlh12tua-mlvp2tua-i5-29-ghz256touchbar-P182726806
+            //https://urun.gittigidiyor.com/bilgisayar-tablet/apple-mpxv2tu-a-13-inc-macbook-pro-with-touch-bar-3-1-ghz-dual-core-i5-256gb-space-grey-346234465
+
+            link = link.Remove(startIndex:0, count: link.IndexOf(".com",0, StringComparison.Ordinal)+5);
+            link.Remove(startIndex: link.IndexOf("/");
+            Console.WriteLine(link);
+            await Task.Yield();
         }
     }
 }
