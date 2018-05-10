@@ -8,9 +8,9 @@ namespace CoreWebApp2.Custom
 {
     public class HapServ
     {
+        public string BaseUrl { get; }
         private readonly string _url;
         private readonly string _sitename;
-        public string BaseUrl { get; }
         private readonly string _tekrarlanan;
         private readonly List<int> _name;
         private readonly string _nameAtr;
@@ -68,21 +68,19 @@ namespace CoreWebApp2.Custom
                 {
                     try
                     {
+                        // Product Initializatiob
                         var pro = new product
                         {
                             Isim = await Getname(item, _name, _nameAtr),
-                            Fiyat = await Getprice(
-                                item,
-                                _price,
-                                _price2,
-                                _priceAtr
-                            ),
+                            Fiyat = await Getprice(item,_price,_price2,_priceAtr),
                             Link = await Getlink(item, _link, _linkAtr),
                             Resim = await Getimg(item, _img, _imgAtr),
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
                             Puan = await Getpoint(item, _point, _pointAtr),
                             Site = _sitename
                         };
+
+                        #region Conditional Edits
 
                         if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
                             (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
@@ -101,7 +99,7 @@ namespace CoreWebApp2.Custom
                         }
                         else
                         {
-                            pro.Kategori=string.Empty;
+                            pro.Kategori = string.Empty;
                         }
 
                         if (pro.Satıcı == null)
@@ -180,6 +178,8 @@ namespace CoreWebApp2.Custom
                         {
                             db.CountPrices.c5000_plus++;
                         }
+
+                        #endregion
 
                         db.Products.Add(pro);
                     }
@@ -332,13 +332,13 @@ namespace CoreWebApp2.Custom
             //https://urun.gittigidiyor.com/bilgisayar-tablet/apple-mpxv2tu-a-13-inc-macbook-pro-with-touch-bar-3-1-ghz-dual-core-i5-256gb-space-grey-346234465
             try
             {
-                var keeped = link;
-                link = link.Remove(startIndex: 0, count: link.IndexOf(value: ".com", startIndex: 0, comparisonType: StringComparison.Ordinal) + 5);
-                var startIndexOfSlash = link.IndexOf("/");
-                link = link.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash - 1);
-                Console.WriteLine(value: link);
+                var stash = link;
+                stash = stash.Remove(startIndex: 0, count: link.IndexOf(value: ".com", startIndex: 0, comparisonType: StringComparison.Ordinal) + 5);
+                var startIndexOfSlash = stash.IndexOf("/");
+                stash = stash.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash - 1);
+                Console.WriteLine(value: stash);
                 await Task.Yield();
-                return link.Replace('-',' ');
+                return stash.Replace('-',' ');
             }
             catch
             {
