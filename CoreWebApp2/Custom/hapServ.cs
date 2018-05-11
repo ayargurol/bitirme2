@@ -72,13 +72,14 @@ namespace CoreWebApp2.Custom
                         var pro = new product
                         {
                             Isim = await Getname(item, _name, _nameAtr),
-                            Fiyat = await Getprice(item,_price,_price2,_priceAtr),
+                            Fiyat = await Getprice(item, _price, _price2, _priceAtr),
                             Link = await Getlink(item, _link, _linkAtr),
                             Resim = await Getimg(item, _img, _imgAtr),
                             Satıcı = await Getseller(item, _seller, _sellerAtr),
                             Puan = await Getpoint(item, _point, _pointAtr),
                             Site = _sitename
                         };
+                        pro.Kategori = await GetCategory(pro.Link);
 
                         #region Conditional Edits
 
@@ -92,14 +93,6 @@ namespace CoreWebApp2.Custom
                             string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
                         {
                             continue;
-                        }
-                        if (_sitename != "hepsiburada")
-                        {
-                            pro.Kategori = await GetCategory(pro.Link);
-                        }
-                        else
-                        {
-                            pro.Kategori = string.Empty;
                         }
 
                         if (pro.Satıcı == null)
@@ -335,10 +328,12 @@ namespace CoreWebApp2.Custom
                 var stash = link;
                 stash = stash.Remove(startIndex: 0, count: link.IndexOf(value: ".com", startIndex: 0, comparisonType: StringComparison.Ordinal) + 5);
                 var startIndexOfSlash = stash.IndexOf("/");
-                stash = stash.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash - 1);
-                Console.WriteLine(value: stash);
+                stash = stash.Remove(startIndexOfSlash);
+                //stash = stash.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash);
+               
+                Console.WriteLine(stash.Replace('-', ' '));
                 await Task.Yield();
-                return stash.Replace('-',' ');
+                return stash.Replace('-', ' ');
             }
             catch
             {
