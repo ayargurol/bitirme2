@@ -117,11 +117,7 @@ namespace CoreWebApp2.Custom
                         pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty)
                             .Replace(".", string.Empty);
                         var proFiyat = Convert.ToDouble(pro.Fiyat);
-                        if (proFiyat >= 1000)
-                        {
-                            pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
-                        }
-
+                        pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
                         switch (_sitename)
                         {
                             case "n11":
@@ -329,9 +325,6 @@ namespace CoreWebApp2.Custom
                 stash = stash.Remove(startIndex: 0, count: link.IndexOf(value: ".com", startIndex: 0, comparisonType: StringComparison.Ordinal) + 5);
                 var startIndexOfSlash = stash.IndexOf("/");
                 stash = stash.Remove(startIndexOfSlash);
-                //stash = stash.Remove(startIndex: startIndexOfSlash, count: link.Length - startIndexOfSlash);
-               
-                Console.WriteLine(stash.Replace('-', ' '));
                 await Task.Yield();
                 return stash.Replace('-', ' ');
             }
