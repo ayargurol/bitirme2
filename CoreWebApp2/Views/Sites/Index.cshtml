@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoreWebApp2.Models.Sql.SitesDB>
+﻿@model CoreWebApp2.Controllers.SitesController.ViewModel
 
 @{
     ViewData["Title"] = "Admin Paneli";
@@ -12,26 +12,55 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.SiteName)
-                </th>
-                
+            <th>
+                Site İsmi
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.Sites)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SiteName)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SiteId">Düzenle</a> |
+                    <a asp-action="Details" asp-route-id="@item.SiteId">Ayrıntılar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SiteId">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Kayıtlar</h2>
+
+<table class="table">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SiteName)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SiteId">Düzenle</a> |
-                <a asp-action="Details" asp-route-id="@item.SiteId">Ayrıntılar</a> |
-                <a asp-action="Delete" asp-route-id="@item.SiteId">Sil</a>
-            </td>
+            <th>
+                Aranan Kelime
+            </th>
+
+            <th>
+                Aranma Sayısı
+            </th>
         </tr>
-}
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Records)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SearchedWord)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.count)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

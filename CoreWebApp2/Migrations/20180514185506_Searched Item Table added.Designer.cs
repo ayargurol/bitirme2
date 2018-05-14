@@ -10,9 +10,10 @@ using System;
 namespace CoreWebApp2.Migrations
 {
     [DbContext(typeof(SitesContext))]
-    partial class SitesContextModelSnapshot : ModelSnapshot
+    [Migration("20180514185506_Searched Item Table added")]
+    partial class SearchedItemTableadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +65,6 @@ namespace CoreWebApp2.Migrations
                     b.Property<string>("LinkExtra")
                         .HasColumnName("LinkExtra")
                         .HasColumnType("varchar");
-
-                    b.Property<string>("Logo_link")
-                        .IsRequired();
 
                     b.Property<string>("NameAttribute");
 

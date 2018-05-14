@@ -10,9 +10,10 @@ using System;
 namespace CoreWebApp2.Migrations
 {
     [DbContext(typeof(SitesContext))]
-    partial class SitesContextModelSnapshot : ModelSnapshot
+    [Migration("20180514191213_Logo_link added to required classes")]
+    partial class Logo_linkaddedtorequiredclasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -9,6 +9,7 @@ namespace CoreWebApp2.Custom
     public class HapServ
     {
         public string _baseUrl { get; }
+        public string logo_link { get; set; }
         private readonly string _url;
         private readonly string _sitename;
         private readonly string _tekrarlanan;
@@ -52,139 +53,256 @@ namespace CoreWebApp2.Custom
             _sellerAtr = saticiAtr;
         }
 
-        public async Task<SearchViewModel> GetProducts()
+        public async Task<SearchModel> GetProducts()
         {
-            try
+            var deneme = DateTime.Now;
+            var db = new SearchModel();
+            var loader = new HtmlWeb();
+            var doc = loader.Load(_url);
+            Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
+                                     (DateTime.Now - deneme).Seconds + "s " +
+                                     (DateTime.Now - deneme).Milliseconds + "ms");
+            var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
+            foreach (var item in liNode)
             {
-                var deneme = DateTime.Now;
-                var db = new SearchViewModel();
-                var loader = new HtmlWeb();
-                var doc = loader.Load(_url);
-                Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
-                                         (DateTime.Now - deneme).Seconds + "s " +
-                                         (DateTime.Now - deneme).Milliseconds + "ms");
-                var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
-                foreach (var item in liNode)
+                try
                 {
-                    try
+                    // Product Initialization
+                    var pro = new product
                     {
-                        // Product Initializatiob
-                        var pro = new product
-                        {
-                            Isim = await Getname(item, _name, _nameAtr),
-                            Fiyat = await Getprice(item, _price, _price2, _priceAtr),
-                            Link = await Getlink(item, _link, _linkAtr),
-                            Resim = await Getimg(item, _img, _imgAtr),
-                            Satıcı = await Getseller(item, _seller, _sellerAtr),
-                            Puan = await Getpoint(item, _point, _pointAtr),
-                            Site = _sitename
-                        };
-                        pro.Kategori = await GetCategory(pro.Link);
+                        Isim = await Getname(item, _name, _nameAtr),
+                        Fiyat = await Getprice(item, _price, _price2, _priceAtr),
+                        Link = await Getlink(item, _link, _linkAtr),
+                        Resim = await Getimg(item, _img, _imgAtr),
+                        Satıcı = await Getseller(item, _seller, _sellerAtr),
+                        Puan = await Getpoint(item, _point, _pointAtr),
+                        Site = _sitename
+                    };
+                    pro.Kategori = await GetCategory(pro.Link);
 
-                        #region Conditional Edits
+                    #region Conditional Edits
 
-                        if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
-                            (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
-                        {
-                            pro.Link = _linkExtra + pro.Link;
-                        }
-
-                        if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
-                            string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
-                        {
-                            continue;
-                        }
-
-                        if (pro.Satıcı == null)
-                        {
-                            pro.Satıcı = string.Empty;
-                        }
-
-                        if (!string.IsNullOrEmpty(pro.Puan))
-                        {
-                            pro.Puan = pro.Puan.Replace(@"%", string.Empty);
-                            if (pro.Puan.Contains("width"))
-                            {
-                                pro.Puan = pro.Puan.Replace("width:", string.Empty)
-                                    .Replace(";", string.Empty);
-                            }
-                        }
-                        else
-                        {
-                            pro.Puan = string.Empty;
-                        }
-
-                        pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty)
-                            .Replace(".", string.Empty);
-                        var proFiyat = Convert.ToDouble(pro.Fiyat);
-                        pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
-                        switch (_sitename)
-                        {
-                            case "n11":
-                                db.N11Count++;
-                                break;
-                            case "gittigidiyor":
-                                db.GittigidiyorCount++;
-                                break;
-                            case "hepsiburada":
-                                db.HepsiburadaCount++;
-                                break;
-                        }
-
-                        if (proFiyat < 25)
-                        {
-                            db.CountPrices.c0_25++;
-                        }
-                        else if (proFiyat < 50)
-                        {
-                            db.CountPrices.c25_50++;
-                        }
-                        else if (proFiyat < 100)
-                        {
-                            db.CountPrices.c50_100++;
-                        }
-                        else if (proFiyat < 250)
-                        {
-                            db.CountPrices.c100_250++;
-                        }
-                        else if (proFiyat < 500)
-                        {
-                            db.CountPrices.c250_500++;
-                        }
-                        else if (proFiyat < 1000)
-                        {
-                            db.CountPrices.c500_1000++;
-                        }
-                        else if (proFiyat < 2500)
-                        {
-                            db.CountPrices.c1000_2500++;
-                        }
-                        else if (proFiyat < 5000)
-                        {
-                            db.CountPrices.c2500_5000++;
-                        }
-                        else
-                        {
-                            db.CountPrices.c5000_plus++;
-                        }
-
-                        #endregion
-
-                        db.Products.Add(pro);
-                    }
-                    catch (Exception e)
+                    if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) || !pro.Link.Contains(@"www") || _linkExtra.Length > 1)
                     {
-                        Console.WriteLine(e.Message);
+                        pro.Link = _linkExtra + pro.Link;
                     }
+
+                    if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
+                        string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
+                    {
+                        continue;
+                    }
+
+                    if (pro.Satıcı == null)
+                    {
+                        pro.Satıcı = string.Empty;
+                    }
+
+                    if (!string.IsNullOrEmpty(pro.Puan))
+                    {
+                        pro.Puan = pro.Puan.Replace(@"%", string.Empty);
+                        if (pro.Puan.Contains("width"))
+                        {
+                            pro.Puan = pro.Puan.Replace("width:", string.Empty)
+                                .Replace(";", string.Empty);
+                        }
+                    }
+                    else
+                    {
+                        pro.Puan = string.Empty;
+                    }
+
+                    pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty)
+                        .Replace(".", string.Empty);
+                    var proFiyat = Convert.ToDouble(pro.Fiyat);
+                    pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
+
+                    if (proFiyat < 25)
+                    {
+                        db.CountPrices.c0_25++;
+                    }
+                    else if (proFiyat < 50)
+                    {
+                        db.CountPrices.c25_50++;
+                    }
+                    else if (proFiyat < 100)
+                    {
+                        db.CountPrices.c50_100++;
+                    }
+                    else if (proFiyat < 250)
+                    {
+                        db.CountPrices.c100_250++;
+                    }
+                    else if (proFiyat < 500)
+                    {
+                        db.CountPrices.c250_500++;
+                    }
+                    else if (proFiyat < 1000)
+                    {
+                        db.CountPrices.c500_1000++;
+                    }
+                    else if (proFiyat < 2500)
+                    {
+                        db.CountPrices.c1000_2500++;
+                    }
+                    else if (proFiyat < 5000)
+                    {
+                        db.CountPrices.c2500_5000++;
+                    }
+                    else
+                    {
+                        db.CountPrices.c5000_plus++;
+                    }
+
+                    #endregion
+
+                    db.Products.Add(pro);
+                    db.TotalCount++;
+
                 }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            db.logo_link = logo_link;
+            db.sitename = _sitename;
+            return db;
+            #region eski
+            //{
+            //    try
+            //    {
+            //        var deneme = DateTime.Now;
+            //        var db = new SearchViewModel();
+            //        var loader = new HtmlWeb();
+            //        var doc = loader.Load(_url);
+            //        Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
+            //                                 (DateTime.Now - deneme).Seconds + "s " +
+            //                                 (DateTime.Now - deneme).Milliseconds + "ms");
+            //        var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
+            //        foreach (var item in liNode)
+            //        {
+            //            try
+            //            {
+            //                // Product Initializatiob
+            //                var pro = new product
+            //                {
+            //                    Isim = await Getname(item, _name, _nameAtr),
+            //                    Fiyat = await Getprice(item, _price, _price2, _priceAtr),
+            //                    Link = await Getlink(item, _link, _linkAtr),
+            //                    Resim = await Getimg(item, _img, _imgAtr),
+            //                    Satıcı = await Getseller(item, _seller, _sellerAtr),
+            //                    Puan = await Getpoint(item, _point, _pointAtr),
+            //                    Site = _sitename
+            //                };
+            //                pro.Kategori = await GetCategory(pro.Link);
 
-                return db;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            //                #region Conditional Edits
+
+            //                if (_linkExtra != null || !string.IsNullOrEmpty(_linkExtra) ||
+            //                    (_sitename == "hepsiburada" && !pro.Link.Contains(@"www")))
+            //                {
+            //                    pro.Link = _linkExtra + pro.Link;
+            //                }
+
+            //                if (string.IsNullOrEmpty(pro.Fiyat) || string.IsNullOrEmpty(pro.Isim) ||
+            //                    string.IsNullOrEmpty(pro.Link) || string.IsNullOrEmpty(pro.Resim))
+            //                {
+            //                    continue;
+            //                }
+
+            //                if (pro.Satıcı == null)
+            //                {
+            //                    pro.Satıcı = string.Empty;
+            //                }
+
+            //                if (!string.IsNullOrEmpty(pro.Puan))
+            //                {
+            //                    pro.Puan = pro.Puan.Replace(@"%", string.Empty);
+            //                    if (pro.Puan.Contains("width"))
+            //                    {
+            //                        pro.Puan = pro.Puan.Replace("width:", string.Empty)
+            //                            .Replace(";", string.Empty);
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    pro.Puan = string.Empty;
+            //                }
+
+            //                pro.Fiyat = pro.Fiyat.Replace("TL", string.Empty)
+            //                    .Replace(".", string.Empty);
+            //                var proFiyat = Convert.ToDouble(pro.Fiyat);
+            //                pro.Fiyat = pro.Fiyat.Remove(pro.Fiyat.IndexOf(','), 3);
+            //                switch (_sitename)
+            //                {
+            //                    case "n11":
+            //                        db.N11Count++;
+            //                        break;
+            //                    case "gittigidiyor":
+            //                        db.GittigidiyorCount++;
+            //                        break;
+            //                    case "hepsiburada":
+            //                        db.HepsiburadaCount++;
+            //                        break;
+            //                }
+
+            //                if (proFiyat < 25)
+            //                {
+            //                    db.CountPrices.c0_25++;
+            //                }
+            //                else if (proFiyat < 50)
+            //                {
+            //                    db.CountPrices.c25_50++;
+            //                }
+            //                else if (proFiyat < 100)
+            //                {
+            //                    db.CountPrices.c50_100++;
+            //                }
+            //                else if (proFiyat < 250)
+            //                {
+            //                    db.CountPrices.c100_250++;
+            //                }
+            //                else if (proFiyat < 500)
+            //                {
+            //                    db.CountPrices.c250_500++;
+            //                }
+            //                else if (proFiyat < 1000)
+            //                {
+            //                    db.CountPrices.c500_1000++;
+            //                }
+            //                else if (proFiyat < 2500)
+            //                {
+            //                    db.CountPrices.c1000_2500++;
+            //                }
+            //                else if (proFiyat < 5000)
+            //                {
+            //                    db.CountPrices.c2500_5000++;
+            //                }
+            //                else
+            //                {
+            //                    db.CountPrices.c5000_plus++;
+            //                }
+
+            //                #endregion
+
+            //                db.Products.Add(pro);
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                Console.WriteLine(e.Message);
+            //            }
+            //        }
+
+            //        return db;
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //        return null;
+            //    }
+            //} 
+            #endregion
         }
 
         public async Task<string> Getname(HtmlNode li, List<int> child, string atr)

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using CoreWebApp2.Models.Sql;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CoreWebApp2.Models.Sql;
 
 namespace CoreWebApp2.Controllers
 {
@@ -17,11 +15,20 @@ namespace CoreWebApp2.Controllers
         {
             _context = context;
         }
-
+        public class ViewModel
+        {
+            public List<SitesDB> Sites { get; set; }
+            public List<SearchedItem> Records { get; set; }
+        }
         // GET: Sites
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sites.ToListAsync());
+            return View(new ViewModel()
+            {
+                Records = await _context.Records.ToListAsync(),
+                Sites = await _context.Sites.ToListAsync()
+            });
+            //return View(await _context.Sites.ToListAsync());
         }
 
         // GET: Sites/Details/5

@@ -15,6 +15,7 @@ namespace CoreWebApp2.Custom
                 try
                 {
                     HapServ hap = new HapServ(item.SearchUrlPart1 + search + item.SearcUrlPart2, item.SiteName, item.BaseUrl, item.RepatedItem, StringToIntList(item.NameChilds), item.NameAttribute, StringToIntList(item.PriceChilds), StringToIntList(item.PriceChildsTwo), item.PriceAttribute, StringToIntList(item.LinkChilds), item.LinkAttribute, item.LinkExtra, StringToIntList(item.SatisfactionChilds), item.SatisfactionAttribute, StringToIntList(item.ImageChilds), item.ImageAttribute, StringToIntList(item.SellerChilds), item.SellerAttribute);
+                    hap.logo_link = item.Logo_link;
                     siteList.Add(hap);
                 }
                 catch (Exception)

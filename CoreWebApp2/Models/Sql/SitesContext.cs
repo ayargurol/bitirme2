@@ -10,5 +10,6 @@ namespace CoreWebApp2.Models.Sql
 
         }
         public DbSet<SitesDB> Sites { get; set; }
+        public DbSet<SearchedItem> Records { get; set; }
     }
 }

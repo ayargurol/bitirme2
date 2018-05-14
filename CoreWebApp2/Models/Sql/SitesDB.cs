@@ -20,6 +20,10 @@ namespace CoreWebApp2.Models.Sql
         [Required]
         public string BaseUrl { get; set; }
 
+        [Required]
+        [Display(Name = "Site Logosu"), DataType(DataType.Url)]
+        public string Logo_link { get; set; }
+
 
         [Display(Name = "Arama Url'i ilk kısım"), DataType(DataType.Text)]
         [Required]
