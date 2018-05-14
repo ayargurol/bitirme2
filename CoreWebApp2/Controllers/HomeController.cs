@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CoreWebApp2.Custom;
@@ -36,7 +37,7 @@ namespace CoreWebApp2.Controllers
                         path1: Path.GetDirectoryName(path: Assembly.GetExecutingAssembly().Location),
                         path2: @"../../../Models/sites.json"));
 
-                var siteler = JsonConvert.DeserializeObject<List<Sites>>(value: sr.ReadToEnd());
+                var siteler = JsonConvert.DeserializeObject<List<Site>>(value: sr.ReadToEnd());
                 foreach (var item in siteler)
                 {
                     var hapServ = new HapServ(

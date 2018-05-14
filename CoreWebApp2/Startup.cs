@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CoreWebApp2.Models;
+using CoreWebApp2.Models.Sql;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +21,8 @@ namespace CoreWebApp2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<SitesContext>(options =>
+                  options.UseSqlite("Data Source=Sites.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
