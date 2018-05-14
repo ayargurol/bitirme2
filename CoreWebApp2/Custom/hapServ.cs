@@ -8,7 +8,7 @@ namespace CoreWebApp2.Custom
 {
     public class HapServ
     {
-        public string BaseUrl { get; }
+        public string _baseUrl { get; }
         private readonly string _url;
         private readonly string _sitename;
         private readonly string _tekrarlanan;
@@ -34,7 +34,7 @@ namespace CoreWebApp2.Custom
         {
             _url = url;
             _sitename = sitename;
-            BaseUrl = baseUrl;
+            _baseUrl = baseUrl;
             _tekrarlanan = tekrarlanan;
             _name = isim;
             _nameAtr = isimAtr;
