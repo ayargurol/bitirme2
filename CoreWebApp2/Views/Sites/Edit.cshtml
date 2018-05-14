@@ -1,0 +1,120 @@
+﻿@model CoreWebApp2.Models.Sql.SitesDB
+
+@{
+    ViewData["Title"] = "Site Düzenle";
+}
+
+<h2>Site Düzenle</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SiteId" />
+            <div class="form-group">
+                <label asp-for="SiteName" class="control-label"></label>
+                <input asp-for="SiteName" class="form-control" />
+                <span asp-validation-for="SiteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BaseUrl" class="control-label"></label>
+                <input asp-for="BaseUrl" class="form-control" />
+                <span asp-validation-for="BaseUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchUrlPart1" class="control-label"></label>
+                <input asp-for="SearchUrlPart1" class="form-control" />
+                <span asp-validation-for="SearchUrlPart1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearcUrlPart2" class="control-label"></label>
+                <input asp-for="SearcUrlPart2" class="form-control" />
+                <span asp-validation-for="SearcUrlPart2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RepatedItem" class="control-label"></label>
+                <input asp-for="RepatedItem" class="form-control" />
+                <span asp-validation-for="RepatedItem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameChilds" class="control-label"></label>
+                <input asp-for="NameChilds" class="form-control" />
+                <span asp-validation-for="NameChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameAttribute" class="control-label"></label>
+                <input asp-for="NameAttribute" class="form-control" />
+                <span asp-validation-for="NameAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceChilds" class="control-label"></label>
+                <input asp-for="PriceChilds" class="form-control" />
+                <span asp-validation-for="PriceChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceChildsTwo" class="control-label"></label>
+                <input asp-for="PriceChildsTwo" class="form-control" />
+                <span asp-validation-for="PriceChildsTwo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceAttribute" class="control-label"></label>
+                <input asp-for="PriceAttribute" class="form-control" />
+                <span asp-validation-for="PriceAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkChilds" class="control-label"></label>
+                <input asp-for="LinkChilds" class="form-control" />
+                <span asp-validation-for="LinkChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkAttribute" class="control-label"></label>
+                <input asp-for="LinkAttribute" class="form-control" />
+                <span asp-validation-for="LinkAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkExtra" class="control-label"></label>
+                <input asp-for="LinkExtra" class="form-control" />
+                <span asp-validation-for="LinkExtra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageChilds" class="control-label"></label>
+                <input asp-for="ImageChilds" class="form-control" />
+                <span asp-validation-for="ImageChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageAttribute" class="control-label"></label>
+                <input asp-for="ImageAttribute" class="form-control" />
+                <span asp-validation-for="ImageAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellerChilds" class="control-label"></label>
+                <input asp-for="SellerChilds" class="form-control" />
+                <span asp-validation-for="SellerChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SellerAttribute" class="control-label"></label>
+                <input asp-for="SellerAttribute" class="form-control" />
+                <span asp-validation-for="SellerAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SatisfactionChilds" class="control-label"></label>
+                <input asp-for="SatisfactionChilds" class="form-control" />
+                <span asp-validation-for="SatisfactionChilds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SatisfactionAttribute" class="control-label"></label>
+                <input asp-for="SatisfactionAttribute" class="form-control" />
+                <span asp-validation-for="SatisfactionAttribute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Geri</a>
+</div>
+

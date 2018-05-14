@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CoreWebApp2.Models.Sql.SitesDB>
+
+@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<h2>Siteler</h2>
+
+<p>
+    <a asp-action="Create">Yeni Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SiteName)
+                </th>
+                
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SiteName)
+            </td>
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SiteId">Düzenle</a> |
+                <a asp-action="Details" asp-route-id="@item.SiteId">Ayrıntılar</a> |
+                <a asp-action="Delete" asp-route-id="@item.SiteId">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
