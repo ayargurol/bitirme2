@@ -23,11 +23,18 @@
     <link href="~/assets/css/dashboard.css" rel="stylesheet" />
     <link href="~/assets/plugins/charts-c3/plugin.css" rel="stylesheet" />
     <link href="~/assets/plugins/maps-google/plugin.css" rel="stylesheet" />
-    <link href="~/assets/css/loader.css" rel="stylesheet" />
+    @*
+    <link href="~/assets/css/loader.css" rel="stylesheet" />*@
+    <link href="~/assets/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
+    <script src="~/assets/js/jquery.metadata.js"></script>
+    @*
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>*@
+    <script src="~/assets/js/jquery.tablesorter.js"></script>
+    <script src="~/assets/js/jquery.tablesorter.pager.js"></script>
     <script src="~/assets/js/vendors/paginathing.js"></script>
 </head>
 <body class="">
@@ -64,35 +71,27 @@
                         <div class="col-lg-3">
                             <div class="row">
                                 <div class="col-md-6 col-lg-12 siteStats">
-                                    <div class="card" id="siteCard" style="border:none">
-                                        <div class="loader text-center" id="loader" style="display:none;margin-left:27.5%"></div>
-                                        </div>
-                                    </div>
-                                <div class="col-md-6 col-lg-12 fiyatStats">
-                                    <div class="card" id="fiyatCard" style="border:none ">
-                                        <div class="loader text-center" id="loader3" style="display:none;margin-left:27.5%"></div>
-                                        </div>
-                                    </div>
                                 </div>
+                                <div class="col-md-6 col-lg-12 fiyatStats">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-9 sonuclar">
-                            <div class="card">
-                                <table class="table card-table table-vcenter" id="myTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">Ürün Resmi</th>
-                                            <th class="text-center">Ürün Adı</th>
-                                            <th class="text-center">Puan</th>
-                                            <th class="text-center">Satıcı</th>
-                                            <th class="text-center">Fiyat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                          <div class="loader text-center" id="loader2" style="display:none;margin-left:45%;margin-bottom:3%;"></div>
-
-                                <div id="pages">
-                                </div>
+                            <table class="tablesorter">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Ürün Resmi</th>
+                                        <th class="text-center">Ürün Adı</th>
+                                        <th class="text-center">Kategori</th>
+                                        <th class="text-center">Puan</th>
+                                        <th class="text-center">Satıcı</th>
+                                        <th class="text-center">Fiyat(₺)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="loader text-center" id="loader2" style="display:none;margin-left:45%;margin-bottom:3%;"></div>
+                            <div id="pages">
                             </div>
                         </div>
                     </div>
@@ -108,11 +107,10 @@
     </div>
 </body>
 </html>
-
 <script>
     $(".arama-buton").click(function () {
         var word = $(".arama").val();
-        var url = "@Url.Action(action: "Search",controller: "Home")/" + word;
+        var url = "@Url.Action(action: "Search", controller: "Home")/" + word;
         var content = "";
         var siteStats = "";
         var fiyatStats = "";
@@ -130,41 +128,51 @@
                             ' <td class="text-center"><img src="' + veri.data.products[i].resim + '" style="height: 100px !important; width: 100px !important" alt="" class="h-8"></td>' +
                                 '  <td> ' +
                             '<a href = ' + veri.data.products[i].link + '>' + veri.data.products[i].isim + '</a>' +
-                                ' </td>' +
-                            '<td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data.products[i].puan + '</td>' +
-                            ' <td class="text-muted d-none d-md-table-cell text-nowrap">' + veri.data.products[i].satıcı + '</td>' +
-                                ' <td class="">' +
-                            '<strong>' + veri.data.products[i].fiyat +'₺ </strong>' +
+                            ' </td>' +
+                            '<td class="text-center">' + veri.data.products[i].kategori + '</td>' +
+                            '<td class="text-center">' + veri.data.products[i].puan + '</td>' +
+                            ' <td class="text-center">' + veri.data.products[i].satıcı + '</td>' +
+                                ' <td class="text-center">' +
+                            '<strong>' + veri.data.products[i].fiyat + '</strong>' +
                                 '</td>' +
                                 ' </tr>';
                         }
-                        var table = ' <div class="card"> <table class="table card-table table-vcenter" id="myTable">' +
-                            '<thead><tr><th class="text-center" style="width:20%">Ürün Resmi</th><th class="text-center" onclick="sortTable(1)"> Ürün Adı</th>' +
-                            '<th class="text-center" onclick="sortTable(2)">Puan</th><th class="text-center" onclick="sortTable(3)">Satıcı</th>' +
-                            '<th class="text-center" onclick="sortTable(4)">Fiyat</th></tr></thead>' +
+                        //onclick="sortTable(1)" onclick="sortTable(2)" onclick="sortTable(3)" onclick="sortTable(4)"
+                        var toplam = veri.data.gittigidiyorCount + veri.data.hepsiburadaCount + veri.data.n11Count;
+                        var table = ' <table class="tablesorter" id="myTable">' +
+                            '<thead><tr><th class="text-center" style="width:25%">Ürün Resmi</th><th class="text-center" style="width:25%"> Ürün Adı</th>' +
+                            '<th class="text-center" style="width:17%"> Kategori </th>' +
+                            '<th class="text-center" style="width:8%">Puan</th><th class="text-center" style="width:15%">Satıcı</th>' +
+                            '<th class="text-center" style="width:15%">Fiyat (₺)</th></tr></thead>' +
                             content +
-                            '</tbody></table></div>';
+                            '</tbody></table>';
                         siteStats =
                            ' <div class="card">' +
-                            '<div class="card-body" style="margin-left: 10px;">' +
-                               ' <div class="row">' +
+                        '<div class="card-body" style="margin-left: 10px;">' +
+                        ' <div class="row">' +
                                    ' <div class="mb-4 text-center">' +
-                                      '<a href="https://www.gittigidiyor.com/"><img src="/images/gglogo.png" alt="GittiGidiyor" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                      '<a href="https://www.gittigidiyor.com/"><img src="/assets/gglogo.jpg" alt="GittiGidiyor" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
                                                ' </div>' +
                         '<p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.gittigidiyorCount + '</a></p>' +
-                                   ' </div>' +
+                        ' </div>' +
                                     '<div class="row">' +
                                         '<div class="mb-4 text-center">' +
-                                           '<a href="https://www.hepsiburada.com/"><img src="/images/hblogo.png" alt="HepsiBurada" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                           '<a href="https://www.hepsiburada.com/"><img src="/assets/hblogo.jpg" alt="HepsiBurada" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
                                                ' </div>' +
                         ' <p" style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.hepsiburadaCount + '</a></p>' +
-                                       ' </div>' +
+                        ' </div>' +
                                        ' <div class="row">' +
                                             '<div class="mb-4 text-center">' +
-                                              '<a href="https://www.n11.com/"><img src="/images/n11logo.png" alt="N11" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
+                                              '<a href="https://www.n11.com/"><img src="/assets/n11logo.jpg" alt="N11" class="img-fluid" style="float:left; width:100px;height:100px"></a>' +
                                               '  </div>' +
                         '  <p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data.n11Count + '</a></p>' +
-                                           ' </div>' +
+                        ' </div>' +
+                        ' <div class="row">' +
+                        '<div class="mb-4 text-center">' +
+                        '<strong>Toplam Ürün: </strong>' +
+                        '  </div>' +
+                        '  <p style="margin-left:15%">' + toplam + '</p>' +
+                        ' </div>' +
                             '</div> </div>';
                         fiyatStats =
                             '<table class="table table-bordered table-striped">     '+
@@ -218,8 +226,15 @@
                             '</table>'
                         $(".siteStats").html(siteStats);
                         $(".sonuclar").html(table);
-                        $('table tbody').paginathing();
+                        //$('table tbody').paginathing();
                         $(".fiyatStats").html(fiyatStats);
+                        $("#myTable").tablesorter({
+                            headers: {
+                                0: {
+                                    sorter: false
+                                }
+                            }
+                        });
                     }
 
                 }
@@ -229,16 +244,8 @@
 </script>
 <script>
     function loaderGetir() {
-        var element = document.getElementById("loader");
-        element.style.display = "block";
         var element2 = document.getElementById("loader2");
         element2.style.display = "block";
-        var element3 = document.getElementById("loader3");
-        element3.style.display = "block";
-        var element4 = document.getElementById("fiyatCard");
-        element4.style.border = "1px solid rgba(0, 40, 100, 0.12)";
-        var element5 = document.getElementById("siteCard");
-        element5.style.border = "1px solid rgba(0, 40, 100, 0.12)";
     }
 </script>
 <script>
@@ -249,58 +256,3 @@
             document.getElementById("arama-buton").click();
         }
     });
-</script>
-<script>
-    function sortTable(n) {
-        debugger;
-        var rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        var table = document.getElementById("myTable");
-        switching = true;
-        dir = "asc";
-        while (switching) {
-            switching = false;
-            rows = table.getElementsByTagName("TR");
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-                if (n != 4) {
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    if (dir == "asc") {
-                        if (parseInt(x.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, "")) > parseInt(y.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, ""))) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (parseInt(x.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, "")) < parseInt(y.innerHTML.replace(/<\/?[^>]+(>|$)|₺/g, ""))) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-                switchcount++;
-            } else {
-                if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                }
-            }
-        }
-    }
-</script>
