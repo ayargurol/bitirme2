@@ -28,6 +28,7 @@ namespace CoreWebApp2.Models
         {
             TotalCount = 0;
             Products = new List<product>();
+            CountPrices = new Prices();
         }
     }
 }

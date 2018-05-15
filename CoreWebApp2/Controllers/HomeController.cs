@@ -2,6 +2,7 @@
 using CoreWebApp2.Models;
 using CoreWebApp2.Models.Sql;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,8 +44,9 @@ namespace CoreWebApp2.Controllers
                     newList.Add(data);
                 }
 
-                if (newList == null || newList.Count == 0) return RedirectToAction("Error");
+                if (newList == null || newList.Count == 0 ) return RedirectToAction("Error");
 
+                var kontrol = JsonConvert.SerializeObject(newList);
 
                 Record(word);
                 //Tayfuncum bura yine senin
