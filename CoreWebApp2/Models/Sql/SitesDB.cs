@@ -20,8 +20,9 @@ namespace CoreWebApp2.Models.Sql
         [Required]
         public string BaseUrl { get; set; }
 
-        [Required]
-        [Display(Name = "Site Logosu"), DataType(DataType.Url)]
+        //TODO: sqlite fix ?????
+        //[Required]
+        //[Display(Name = "Site Logosu"), DataType(DataType.Url)]
         public string Logo_link { get; set; }
 
 

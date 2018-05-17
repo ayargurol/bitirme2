@@ -65,8 +65,7 @@ namespace CoreWebApp2.Migrations
                         .HasColumnName("LinkExtra")
                         .HasColumnType("varchar");
 
-                    b.Property<string>("Logo_link")
-                        .IsRequired();
+                    b.Property<string>("Logo_link");
 
                     b.Property<string>("NameAttribute");
 

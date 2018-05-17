@@ -1,66 +1,105 @@
 ﻿@model CoreWebApp2.Controllers.SitesController.ViewModel
-
 @{
     ViewData["Title"] = "Admin Paneli";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
+<body>
 
-<h2>Siteler</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="m-portlet m-portlet--brand m-portlet--head-solid-bg m-portlet--bordered">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon">
+                                <i class="flaticon-web"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Siteler
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="m-portlet__nav">
+                            <li class="m-portlet__nav-item">
+                                <a class="m-portlet__nav-link btn btn-light m-btn m-btn--pill m-btn--air" asp-action="Create">Yeni Oluştur</a>
+                            </li>
 
-<p>
-    <a asp-action="Create">Yeni Oluştur</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Site İsmi
-            </th>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Site İsmi
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Sites)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SiteName)
+                                </td>
+                                <td class="pull-right">
+                                    <a  class="btn btn-outline-brand m-btn m-btn--outline-2x" asp-action="Edit" asp-route-id="@item.SiteId">Düzenle</a>
+                                    <a  class="btn btn-outline-brand m-btn m-btn--outline-2x" asp-action="Details" asp-route-id="@item.SiteId">Ayrıntılar</a>
+                                    <a  class="btn btn-outline-brand m-btn m-btn--outline-2x" asp-action="Delete" asp-route-id="@item.SiteId">Sil</a>
+                                </td>
+                            </tr>
+                    }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Sites)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SiteName)
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.SiteId">Düzenle</a> |
-                    <a asp-action="Details" asp-route-id="@item.SiteId">Ayrıntılar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.SiteId">Sil</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<h2>Kayıtlar</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Aranan Kelime
-            </th>
-
-            <th>
-                Aranma Sayısı
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Records)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SearchedWord)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.count)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </div>
+        <div class="col-md-6">
+            <div class="m-portlet m-portlet--brand m-portlet--head-solid-bg m-portlet--bordered">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon">
+                                <i class="flaticon-file"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Kayıtlar
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Aranan Kelime
+                                </th>
+                                <th>
+                                    Aranma Sayısı
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Records)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SearchedWord)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.count)
+                            </td>
+                        </tr>
+            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

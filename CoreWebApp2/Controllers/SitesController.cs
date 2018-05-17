@@ -11,10 +11,7 @@ namespace CoreWebApp2.Controllers
     {
         private readonly SitesContext _context;
 
-        public SitesController(SitesContext context)
-        {
-            _context = context;
-        }
+        public SitesController(SitesContext context) => _context = context;
         public class ViewModel
         {
             public List<SitesDB> Sites { get; set; }
@@ -28,7 +25,6 @@ namespace CoreWebApp2.Controllers
                 Records = await _context.Records.ToListAsync(),
                 Sites = await _context.Sites.ToListAsync()
             });
-            //return View(await _context.Sites.ToListAsync());
         }
 
         // GET: Sites/Details/5
@@ -55,9 +51,6 @@ namespace CoreWebApp2.Controllers
             return View();
         }
 
-        // POST: Sites/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SiteId,SiteName,BaseUrl,SearchUrlPart1,SearcUrlPart2,RepatedItem,NameChilds,NameAttribute,PriceChilds,PriceChildsTwo,PriceAttribute,LinkChilds,LinkAttribute,LinkExtra,ImageChilds,ImageAttribute,SellerChilds,SellerAttribute,SatisfactionChilds,SatisfactionAttribute")] SitesDB sitesDB)
@@ -87,9 +80,6 @@ namespace CoreWebApp2.Controllers
             return View(sitesDB);
         }
 
-        // POST: Sites/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SiteId,SiteName,BaseUrl,SearchUrlPart1,SearcUrlPart2,RepatedItem,NameChilds,NameAttribute,PriceChilds,PriceChildsTwo,PriceAttribute,LinkChilds,LinkAttribute,LinkExtra,ImageChilds,ImageAttribute,SellerChilds,SellerAttribute,SatisfactionChilds,SatisfactionAttribute")] SitesDB sitesDB)

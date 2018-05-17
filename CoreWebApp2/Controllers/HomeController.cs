@@ -15,20 +15,11 @@ namespace CoreWebApp2.Controllers
     {
         private readonly SitesContext _context;
 
-        public HomeController(SitesContext context)
-        {
-            _context = context;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public HomeController(SitesContext context) => _context = context;
 
-        public IActionResult Error()
-        {
-            return View(
-                model: new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Index() => View();
+
+        public IActionResult Error() => View(model: new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
         [HttpGet]
         public async Task<IActionResult> Search(string word)
@@ -40,21 +31,18 @@ namespace CoreWebApp2.Controllers
                 var siteler = sc.GetSites(_context, word);
                 foreach (var item in siteler)
                 {
-                    var data = await item.GetProducts();
-                    newList.Add(data);
+                    newList.Add(await item.GetProducts());
                 }
 
-                if (newList == null || newList.Count == 0 ) return RedirectToAction("Error");
+                if (newList == null || newList.Count == 0) return RedirectToAction("Error");
 
                 var kontrol = JsonConvert.SerializeObject(newList);
 
                 Record(word);
-                //Tayfuncum bura yine senin
                 return Json(data: new { data = newList, status = true });
             }
             catch (Exception e)
             {
-                // TODO: Hata oluştur
                 Console.WriteLine(value: e.Message);
                 return RedirectToAction("Error");
             }
