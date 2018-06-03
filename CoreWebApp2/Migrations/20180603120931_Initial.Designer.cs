@@ -10,8 +10,8 @@ using System;
 namespace CoreWebApp2.Migrations
 {
     [DbContext(typeof(SitesContext))]
-    [Migration("20180514191213_Logo_link added to required classes")]
-    partial class Logo_linkaddedtorequiredclasses
+    [Migration("20180603120931_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

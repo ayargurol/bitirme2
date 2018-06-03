@@ -10,8 +10,8 @@ using System;
 namespace CoreWebApp2.Migrations
 {
     [DbContext(typeof(SitesContext))]
-    [Migration("20180516101605_url fix")]
-    partial class urlfix
+    [Migration("20180603121201_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,7 +66,9 @@ namespace CoreWebApp2.Migrations
                         .HasColumnName("LinkExtra")
                         .HasColumnType("varchar");
 
-                    b.Property<string>("Logo_link");
+                    b.Property<string>("Logo_link")
+                        .IsRequired()
+                        .HasColumnType("varchar");
 
                     b.Property<string>("NameAttribute");
 
