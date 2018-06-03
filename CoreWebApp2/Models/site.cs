@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoreWebApp2.Models
 {
-    public class Sites
+    public class Site
     {
         public int SiteId { get; set; }
         public string SiteName { get; set; }

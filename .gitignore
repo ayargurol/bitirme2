@@ -1,3 +1,6 @@
 .vs
 CoreWebApp2/obj
 CoreWebApp2/bin
+.vscode
+CoreWebApp2/Sites.db
+*.db

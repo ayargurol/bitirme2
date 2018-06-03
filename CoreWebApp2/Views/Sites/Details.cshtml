@@ -1,0 +1,200 @@
+﻿@model CoreWebApp2.Models.Sql.SitesDB
+@{
+    ViewData["Title"] = "Ayrıntılar";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+}
+<body>
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                        <i class="la la-gear"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        Site Düzenle
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <!--begin::Form-->
+        <form asp-action="Edit" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SiteId" />
+            <div class="m-portlet__body">
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="SiteName">
+                            Site Adı:
+                        </label>
+                        <input asp-for="SiteName" type="email" class="form-control m-input">
+                        <span asp-validation-for="SiteName" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="BaseUrl">
+                            Site Adresi:
+                        </label>
+                        <input asp-for="BaseUrl" type="email" class="form-control m-input">
+                        <span asp-validation-for="BaseUrl" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="Logo_link">
+                            Site Linki:
+                        </label>
+                        <input asp-for="Logo_link" type="text" class="form-control m-input">
+                        <span asp-validation-for="Logo_link" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="SearchUrlPart1">
+                            Url İlk Kısım:
+                        </label>
+                        <input asp-for="SearchUrlPart1" type="text" class="form-control m-input">
+                        <span asp-validation-for="SearchUrlPart1" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="SearcUrlPart2">
+                            Url İkinci Kısım:
+                        </label>
+                        <input asp-for="SearcUrlPart2" type="text" class="form-control m-input">
+                        <span asp-validation-for="SearcUrlPart2" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="RepatedItem">
+                            Arama Sonucu Tekrar Eden Kısım:
+                        </label>
+                        <input asp-for="RepatedItem" type="text" class="form-control m-input">
+                        <span asp-validation-for="RepatedItem" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="NameChilds">
+                            İsim Sıralaması
+                        </label>
+                        <input asp-for="NameChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="NameChilds" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="NameAttribute">
+                            İsim Niteliği
+                        </label>
+                        <input asp-for="NameAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="NameAttribute" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="PriceChilds">
+                            Fiyat Sıralaması
+                        </label>
+                        <input asp-for="PriceChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="PriceChilds" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="PriceChildsTwo">
+                            İkinci Fiyat Sıralaması
+                        </label>
+                        <input asp-for="PriceChildsTwo" type="text" class="form-control m-input">
+                        <span asp-validation-for="PriceChildsTwo" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="PriceAttribute">
+                            Fiyat Niteliği
+                        </label>
+                        <input asp-for="PriceAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="PriceAttribute" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="LinkChilds">
+                            Link Sıralaması
+                        </label>
+                        <input asp-for="LinkChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="LinkChilds" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="LinkAttribute">
+                            Link Niteliği
+                        </label>
+                        <input asp-for="LinkAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="LinkAttribute" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="LinkExtra">
+                            Link Ekstra
+                        </label>
+                        <input asp-for="LinkExtra" type="text" class="form-control m-input">
+                        <span asp-validation-for="LinkExtra" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="ImageChilds">
+                            Resim Sıralaması
+                        </label>
+                        <input asp-for="ImageChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="ImageChilds" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-4">
+                        <label asp-for="ImageAttribute">
+                            Resim Niteliği
+                        </label>
+                        <input asp-for="ImageAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="ImageAttribute" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="SellerChilds">
+                            Satıcı Sıralaması
+                        </label>
+                        <input asp-for="SellerChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="SellerChilds" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label asp-for="SellerAttribute">
+                            Satıcı Niteliği
+                        </label>
+                        <input asp-for="SellerAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="SellerAttribute" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-lg-6">
+                        <label asp-for="SatisfactionChilds">
+                            Puan Sıralaması
+                        </label>
+                        <input asp-for="SatisfactionChilds" type="text" class="form-control m-input">
+                        <span asp-validation-for="SatisfactionChilds" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label asp-for="SatisfactionAttribute">
+                            Puan Niteliği
+                        </label>
+                        <input asp-for="SatisfactionAttribute" type="text" class="form-control m-input">
+                        <span asp-validation-for="SatisfactionAttribute" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions--solid">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <a class="btn btn-outline-danger m-btn m-btn--outline-2x" asp-action="Index">Geri</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--end::Form-->
+    </div>
+</body>
