@@ -53,7 +53,7 @@ namespace CoreWebApp2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SiteId,SiteName,BaseUrl,SearchUrlPart1,SearcUrlPart2,RepatedItem,NameChilds,NameAttribute,PriceChilds,PriceChildsTwo,PriceAttribute,LinkChilds,LinkAttribute,LinkExtra,ImageChilds,ImageAttribute,SellerChilds,SellerAttribute,SatisfactionChilds,SatisfactionAttribute")] SitesDB sitesDB)
+        public async Task<IActionResult> Create([Bind("SiteId,SiteName,BaseUrl,SearchUrlPart1,SearcUrlPart2,RepatedItem,NameChilds,NameAttribute,PriceChilds,PriceChildsTwo,PriceAttribute,LinkChilds,LinkAttribute,LinkExtra,ImageChilds,ImageAttribute,SellerChilds,SellerAttribute,SatisfactionChilds,SatisfactionAttribute,Logo_link")] SitesDB sitesDB)
         {
             if (ModelState.IsValid)
             {

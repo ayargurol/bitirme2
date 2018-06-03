@@ -10,7 +10,8 @@ namespace CoreWebApp2.Custom
         public List<HapServ> GetSites(SitesContext context,string search)
         {
             List<HapServ> siteList = new List<HapServ>();
-            foreach (var item in context.Sites.ToList())
+            var items = context.Sites.ToList();
+            foreach (var item in items)
             {
                 try
                 {
@@ -27,13 +28,21 @@ namespace CoreWebApp2.Custom
         }
         private List<int> StringToIntList(string str)
         {
-            var list = str.Split(',');
-            var intList = new List<int>();
-            foreach (var item in list)
+            if (!String.IsNullOrEmpty(str)||str!=null)
             {
-                intList.Add(Convert.ToInt32(item));
+
+                var list = str.Split(',');
+                var intList = new List<int>();
+                foreach (var item in list)
+                {
+                    intList.Add(Convert.ToInt32(item));
+                }
+                return intList;
             }
-            return intList;
+            else
+            {
+                return null;
+            }
         }
     }
 }

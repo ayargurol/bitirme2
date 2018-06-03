@@ -38,6 +38,11 @@ namespace CoreWebApp2.Controllers
 
                 var kontrol = JsonConvert.SerializeObject(newList);
 
+                foreach (var item in newList)
+                {
+                    Console.WriteLine(item.TotalCount);
+                }
+
                 Record(word);
                 return Json(data: new { data = newList, status = true });
             }
