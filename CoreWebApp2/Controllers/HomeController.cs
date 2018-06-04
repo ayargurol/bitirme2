@@ -19,7 +19,7 @@ namespace CoreWebApp2.Controllers
 
         public IActionResult Index() => View();
 
-        public IActionResult Error() => View(model: new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error() => View();
 
         [HttpGet]
         public async Task<IActionResult> Search(string word)
@@ -48,8 +48,8 @@ namespace CoreWebApp2.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(value: e.Message);
-                return RedirectToAction("Error");
+                Console.WriteLine("Bulunamadı hatası  " + e.Message);
+                return Json(data: new { message= "Aradığınız ürün bulunamadı.", status = false });
             }
         }
 
@@ -77,6 +77,24 @@ namespace CoreWebApp2.Controllers
                 Console.WriteLine("\nARAMA KAYDEDILEMEDI --->");
                 Console.WriteLine(e.Message + "\n");
             }
+        }
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult _Login(string userName, string password)
+        {
+
+            if (userName == "admin" && password == "1234") //TODO: db ?
+            {
+                return Json(new { status = true, message = "Giriş Başarılı" });
+            }
+            else
+            {
+                return Json(new { status = false, message = "Giriş Başarısız" });
+            }
+            
         }
     }
 }

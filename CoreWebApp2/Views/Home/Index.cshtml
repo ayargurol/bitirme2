@@ -17,7 +17,7 @@
     <meta name="MobileOptimized" content="320">
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-    <title>Store components - tabler.github.io - a responsive, flat and full featured admin template</title>
+    <title>Ürün Arama</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
     <link href="~/assets/css/dashboard.css" rel="stylesheet" />
@@ -29,7 +29,9 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script src="~/assets/js/jquery.metadata.js"></script>
-
+    <script src="~/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/snippets/pages/user/login.js" type="text/javascript"></script>
     <script src="~/assets/js/jquery.tablesorter.js"></script>
     <script src="~/assets/js/jquery.tablesorter.pager.js"></script>
     <script src="~/assets/js/vendors/paginathing.js"></script>
@@ -74,6 +76,9 @@
                             </div>
                         </div>
                         <div class="col-lg-9 sonuclar">
+                            <div class="hata">
+
+                            </div>
                             <table class="tablesorter">
                                 <thead>
                                     <tr>
@@ -111,14 +116,24 @@
         var content = "";
         var siteStats = "";
         var fiyatStats = "";
+        var siteStatsContent = "";
+        var fiyat0_25 = 0;
+        var fiyat25_50 = 0;
+        var fiyat50_100 = 0;
+        var fiyat100_250 = 0;
+        var fiyat250_500 = 0;
+        var fiyat500_1000 = 0;
+        var fiyat1000_2500 = 0;
+        var fiyat2500_5000 = 0;
+        var fiyat5000_plus = 0;
         $.ajax({
             method: 'GET',
             url: url,
             data: { word: word },
             success:
                 function (veri) {
+                    console.log(veri);
                     if (veri.status) {
-                        console.log(veri);
                         for (var j = 0; j < veri.data.length; j++) {
                         for (var i = 0; i < veri.data[j].products.length; i++) {
                             content +=
@@ -136,8 +151,6 @@
                                 ' </tr>';
                         }
                         
-                        //onclick="sortTable(1)" onclick="sortTable(2)" onclick="sortTable(3)" onclick="sortTable(4)"
-                        //var toplam = veri.data[0].gittigidiyorCount + veri.data[0].hepsiburadaCount + veri.data[0].n11Count;
                         var table = ' <table class="tablesorter" id="myTable">' +
                             '<thead><tr><th class="text-center" style="width:25%">Ürün Resmi</th><th class="text-center" style="width:25%"> Ürün Adı</th>' +
                             '<th class="text-center" style="width:17%"> Kategori </th>' +
@@ -145,15 +158,24 @@
                             '<th class="text-center" style="width:15%">Fiyat (₺)</th></tr></thead>' +
                             content +
                             '</tbody></table>';
-                        siteStats = 
-                           ' <div class="card">' +
-                        '<div class="card-body" style="margin-left: 10px;">' +
-                        ' <div class="row">' +
-                                   ' <div class="mb-4 text-center">' +
-                        '<img src="'+veri.data[j].logo_link+'" class="img-fluid" style="float:left; width:100px;height:100px">' +
-                                               ' </div>' +
-                        '<p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data[j].totalCount + '</a></p>' +
-                        ' </div></div>';
+                            siteStatsContent += ' <div class="row">' +
+                                ' <div class="mb-4 text-center">' +
+                                '<img src="' + veri.data[j].logo_link + '" class="img-fluid" style="float:left; width:100px;height:100px">' +
+                                ' </div>' + '<p style="margin-top: 45px;margin-left: 15px;"> Ürün Sayısı: ' + veri.data[j].totalCount + '</p>' + ' </div>';
+                            siteStats =
+                                ' <div class="card">' +
+                                '<div class="card-body" style="margin-left: 10px;">' +
+                                siteStatsContent +
+                                ' </div></div>';
+                            fiyat0_25 += veri.data[j].countPrices.c0_25;
+                            fiyat25_50 += veri.data[j].countPrices.c25_50;
+                            fiyat50_100 += veri.data[j].countPrices.c50_100;
+                            fiyat100_250 += veri.data[j].countPrices.c100_250;
+                            fiyat250_500 += veri.data[j].countPrices.c250_500;
+                            fiyat500_1000 += veri.data[j].countPrices.c500_1000;
+                            fiyat1000_2500 += veri.data[j].countPrices.c1000_2500;
+                            fiyat2500_5000 += veri.data[j].countPrices.c2500_5000;
+                            fiyat5000_plus += veri.data[j].countPrices.c5000_plus;
                         fiyatStats =
                             '<table class="table table-bordered table-striped">     ' +
                             '    <thead>                                            ' +
@@ -165,42 +187,42 @@
                             '    <tbody>                                            ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">0-25₺</td>         ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c0_25 + '</td>          ' +
+                        '            <td class="text-center">' + fiyat0_25 + '</td>          ' +
                             '                                                       ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">25-50₺</td>        ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c25_50 + '</td>         ' +
+                        '            <td class="text-center">' + fiyat25_50 + '</td>         ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">50-100₺</td>       ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c50_100 + '</td>         ' +
+                        '            <td class="text-center">' + fiyat50_100 + '</td>         ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">100-250₺</td>      ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c100_250 + '</td>          ' +
+                        '            <td class="text-center">' + fiyat100_250 + '</td>          ' +
                             '                                                       ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">250-500₺</td>      ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c250_500 + '</td>         ' +
+                        '            <td class="text-center">' + fiyat250_500 + '</td>         ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">500-1000₺</td>     ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c500_1000 + '</td>         ' +
+                        '            <td class="text-center">' + fiyat500_1000 + '</td>         ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">1000-2500₺</td>    ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c1000_2500 + '</td>          ' +
+                        '            <td class="text-center">' + fiyat1000_2500 + '</td>          ' +
                             '                                                       ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">2500-5000₺</td>    ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c2500_5000 + '</td>         ' +
+                        '            <td class="text-center">' + fiyat2500_5000 + '</td>         ' +
                             '        </tr>                                          ' +
                             '        <tr>                                           ' +
                             '            <td class="text-center">5000₺+</td>        ' +
-                            '            <td class="text-center">' + veri.data[j].countPrices.c5000_plus + '</td>         ' +
+                        '            <td class="text-center">' + fiyat5000_plus + '</td>         ' +
                             '        </tr>                                          ' +
                             '    </tbody>                                           ' +
                             '</table>';
@@ -208,6 +230,7 @@
                         $(".siteStats").html(siteStats);
                         $(".sonuclar").html(table);
                         //$('table tbody').paginathing();
+                        $(".hata").html("");
                         $(".fiyatStats").html(fiyatStats);
                         $("#myTable").tablesorter({
                             headers: {
@@ -216,6 +239,11 @@
                                 }
                             }
                         });
+                    } else {
+                        var error = "<p>" + veri.message + "</p>";
+                        toastr.error(veri.message);
+                        $(".hata").html(error);
+                        document.getElementById("loader2").style.display = "none";
                     }
                 }
         });
