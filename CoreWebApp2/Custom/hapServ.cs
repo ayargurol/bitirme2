@@ -55,13 +55,14 @@ namespace CoreWebApp2.Custom
 
         public async Task<SearchModel> GetProducts()
         {
-            var deneme = DateTime.Now;
-            var db = new SearchModel();
+            var before = DateTime.Now;
             var loader = new HtmlWeb();
             var doc = loader.Load(_url);
+            var after = DateTime.Now;
+            var db = new SearchModel();
             Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
-                                     (DateTime.Now - deneme).Seconds + "s " +
-                                     (DateTime.Now - deneme).Milliseconds + "ms");
+                                     (after - before).Seconds + "s " +
+                                     (after - before).Milliseconds + "ms");
             var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
             foreach (var item in liNode)
             {
@@ -103,7 +104,8 @@ namespace CoreWebApp2.Custom
                         pro.Puan = pro.Puan.Replace(@"%", string.Empty);
                         if (pro.Puan.Contains("width"))
                         {
-                            pro.Puan = pro.Puan.Replace("width:", string.Empty)
+                            pro.Puan = pro.Puan
+                                .Replace("width:", string.Empty)
                                 .Replace(";", string.Empty);
                         }
                     }

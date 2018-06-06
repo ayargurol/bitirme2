@@ -21,14 +21,8 @@ namespace CoreWebApp2.Models
     {
         public string sitename { get; set; }
         public string logo_link { get; set; }
-        public List<product> Products { get; set; }
-        public Prices CountPrices { get; set; }
-        public int TotalCount { get; set; }
-        public SearchModel()
-        {
-            TotalCount = 0;
-            Products = new List<product>();
-            CountPrices = new Prices();
-        }
+        public List<product> Products { get; set; } = new List<product>();
+        public Prices CountPrices { get; set; } = new Prices();
+        public int TotalCount { get; set; } = 0;
     }
 }

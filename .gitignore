@@ -4,3 +4,5 @@ CoreWebApp2/bin
 .vscode
 CoreWebApp2/Sites.db
 *.db
+PublishProfiles/
+CoreWebApp2/Properties/PublishProfiles/
