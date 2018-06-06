@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CoreWebApp2.Models;
 using HtmlAgilityPack;
@@ -55,14 +56,14 @@ namespace CoreWebApp2.Custom
 
         public async Task<SearchModel> GetProducts()
         {
-            var before = DateTime.Now;
             var loader = new HtmlWeb();
+            var watch = Stopwatch.StartNew();
             var doc = loader.Load(_url);
-            var after = DateTime.Now;
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
             var db = new SearchModel();
-            Console.WriteLine("Request answered from " + _sitename.ToUpper() + " with " +
-                                     (after - before).Seconds + "s " +
-                                     (after - before).Milliseconds + "ms");
+            Console.WriteLine($"Request answered from " + _sitename.ToUpper() + " with " + elapsedMs + " ms");
+
             var liNode = doc.DocumentNode.SelectNodes(_tekrarlanan);
             foreach (var item in liNode)
             {

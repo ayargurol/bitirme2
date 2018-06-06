@@ -24,32 +24,35 @@ namespace CoreWebApp2.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(string word)
         {
+            var watch = Stopwatch.StartNew();
             SitesConverter sc = new SitesConverter();
             var newList = new List<SearchModel>();
             try
             {
                 var siteler = sc.GetSites(_context, word);
+                //foreach (var item in siteler)
+                //{
+                //    newList.Add(await item.GetProducts());
+                //}
+
+                //if (newList == null || newList.Count == 0) return RedirectToAction("Error");
+
+                List<Task<SearchModel>> paralel = new List<Task<SearchModel>>();
                 foreach (var item in siteler)
                 {
-                    newList.Add(await item.GetProducts());
+                    paralel.Add(Task.Run(() => item.GetProducts()));
                 }
-
-                if (newList == null || newList.Count == 0) return RedirectToAction("Error");
-
-                var kontrol = JsonConvert.SerializeObject(newList);
-
-                foreach (var item in newList)
-                {
-                    Console.WriteLine(item.TotalCount);
-                }
+                var results = await Task.WhenAll(paralel);
+                watch.Stop();
+                Console.WriteLine("Whole Process Took " +watch.ElapsedMilliseconds + " ms");
 
                 Record(word);
-                return Json(data: new { data = newList, status = true });
+                return Json(data: new { data = results, status = true });
             }
             catch (Exception e)
             {
                 Console.WriteLine("Bulunamadı hatası  " + e.Message);
-                return Json(data: new { message= "Aradığınız ürün bulunamadı.", status = false });
+                return Json(data: new { message = "Aradığınız ürün bulunamadı.", status = false });
             }
         }
 
@@ -94,7 +97,7 @@ namespace CoreWebApp2.Controllers
             {
                 return Json(new { status = false, message = "Giriş Başarısız" });
             }
-            
+
         }
     }
 }
