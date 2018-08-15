@@ -1,1 +1,1 @@
-# Basic Online Shop Crawler for Specified Sites
+# Online Shop Crawler for Specified Sites
